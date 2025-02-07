@@ -31,3 +31,46 @@
 2. Invite accepting
 3. Viewing all endpoints, list of assigned
 4. Submit completion progress (in order, in work, done)
+
+## Db scheme
+*long Id on every entity*
+### User
+* Username
+* Password
+* MyProjects
+* MemberProjects
+
+### ProjectMember
+* User
+* Project
+* Right_Editing
+* Right_Inviting
+* Right_Admin
+
+### Project
+* Creator
+* Members
+* Name
+* Description?
+* Services
+* Schemes
+
+### Service
+* Project
+* Name
+* Description?
+* Endpoints
+
+### Scheme
+* Project
+* JsonDetails
+
+### Endpoint
+* Service
+* Name
+* Description?
+* Method
+* Route
+* JsonDetails
+* AssignedUser?
+* Progress
