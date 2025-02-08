@@ -1,0 +1,9 @@
+.button-raw{
+    text-decoration: none;
+    transition: ease-in-out 150ms;
+    cursor: pointer;
+    user-select: none;
+}
+.button-raw:hover{
+    filter: brightness(70%);
+}
