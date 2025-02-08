@@ -53,6 +53,7 @@ Every element in project (Services, Endpoints, Schemes, etc.) MUST be contained 
 * Members
 * Schemes(as JSON; including services)
 * Endpoints
+* CreatedAt
 
 ### Endpoint
 * Hash
