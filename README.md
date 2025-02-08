@@ -5,35 +5,39 @@
 2. Frontend (React)
 3. PostgreSQL
 
-## Features
-* User registration/login
-* Project creation/edit
-* Project user invites
-* Service creation/edit
-* Endpoint creation/edit
-* Checking endpoints done
+## Access
+* Just pre-defined in config login/password combinations
+* In fact, everyone WILL be trusted people
+
+## Project details storage
+**IMPORTANT**
+
+Every element in project (Services, Endpoints, Schemes, etc.) MUST be contained as one complex json in project entity
 
 ## Average-case scenario
 ### User A
-1. Registration
+1. Login
 2. Project creation
-3. Editing project description
-4. Inviting user
-5. Editing user rights
-6. Creating auth scheme
-7. Creating service "Users"
-8. Creating endpoint "/users/registration"
-    - Adding some details
-    - Assign user, who must done this
+3. Editing project info
+4. Inviting user by username(instant)
+5. See all invited users
+6. Kick user
+7. Creating service
+8. Editing service
+9. Deleting service
+10. Creating endpoint
+11. Editing endpoint
+12. Assigning/Discharge endpoint to user
+12. Deleting endpoint
 
 ### User B
-1. Registration
-2. Invite accepting
+1. Login
+2. List all project (self-made/invited)
 3. Viewing all endpoints, list of assigned
 4. Submit completion progress (in order, in work, done)
 
 ## Db scheme
-*long Id on every entity*
+*UUID on every entity*
 ### User
 * Username
 * Password
@@ -43,30 +47,15 @@
 ### ProjectMember
 * User
 * Project
-* Right_Editing
-* Right_Inviting
-* Right_Admin
 
 ### Project
 * Creator
 * Members
-* Name
-* Description?
-* Services
-* Schemes
-
-### Service
-* Project
-* Name
-* Description?
+* Schemes(as JSON; including services)
 * Endpoints
 
-### Scheme
-* Project
-* JsonDetails
-
 ### Endpoint
-* Service
+* Hash
 * Name
 * Description?
 * Method
