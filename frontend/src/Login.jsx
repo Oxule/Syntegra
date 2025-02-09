@@ -1,5 +1,7 @@
 import {Button, Container, Paper, PasswordInput, TextInput, Title} from "@mantine/core";
 import {useForm} from "@mantine/form";
+import {useLogin} from "./Auth.js";
+import {useNavigate} from "react-router";
 
 function Login() {
     const form = useForm({
@@ -10,9 +12,16 @@ function Login() {
         }
     });
 
+    const login = useLogin();
+
+    const navigate = useNavigate();
+
     const submitForm = (values) => {
         //TODO: login action
         console.log(values)
+
+        login("test", new Date(Date.now() + (4*60*60*1000)), {name: "Test"});
+        navigate("/");
     }
 
     return (
