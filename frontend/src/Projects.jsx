@@ -15,7 +15,7 @@ function Projects() {
     }
 
     function AddProjectButton(){
-        return <div className={"projects-card button-raw add-button"}>
+        return <div className={"projects-card button-raw add-button projects-card-add"}>
             Add
         </div>;
     }
