@@ -127,7 +127,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/project/{id}/contributors": {
+        "/project/{project_id}/contributors": {
             "get": {
                 "security": [
                     {
@@ -188,7 +188,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/project/{id}/invite/{username}": {
+        "/project/{project_id}/invite/{username}": {
             "post": {
                 "security": [
                     {
@@ -316,6 +316,214 @@ const docTemplate = `{
                 }
             }
         },
+        "/service": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "service"
+                ],
+                "summary": "create new service inside of project",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "access token 'Bearer {token}'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "body",
+                        "name": "RequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ServiceCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.OkResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.HttpErr"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.HttpErr"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.HttpErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/service/{service_id}/endpoint": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "service"
+                ],
+                "summary": "create new endpoint inside of service",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "access token 'Bearer {token}'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "body",
+                        "name": "RequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.EndpointCreate"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Service Id",
+                        "name": "service_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.OkResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.HttpErr"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.HttpErr"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.HttpErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/service/{service_id}/endpoint/{endpoint_id}/assign/{username}": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "service"
+                ],
+                "summary": "assign endpoint to contributor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "access token 'Bearer {token}'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Service Id",
+                        "name": "service_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Endpoint Id",
+                        "name": "endpoint_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.OkResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.HttpErr"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.HttpErr"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.HttpErr"
+                        }
+                    }
+                }
+            }
+        },
         "/user/projects": {
             "get": {
                 "security": [
@@ -330,6 +538,90 @@ const docTemplate = `{
                     "user"
                 ],
                 "summary": "get list of user projects",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "access token 'Bearer {token}'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.ProjectView"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.HttpErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/projects/{project_id}/endpoints": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "get list of user endpoints inside given project",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "access token 'Bearer {token}'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.ProjectView"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.HttpErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/projects/{project_id}/endpoints/{endpoint_id}": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "submit completion of endpoint",
                 "parameters": [
                     {
                         "type": "string",
@@ -399,6 +691,43 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.EndpointCreate": {
+            "type": "object",
+            "required": [
+                "method",
+                "name",
+                "path"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "creates new user and return access token"
+                },
+                "details": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "method": {
+                    "type": "string",
+                    "enum": [
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "PATCH",
+                        "DELETE"
+                    ],
+                    "example": "POST"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "user sign-up endpoint"
+                },
+                "path": {
+                    "type": "string",
+                    "example": "/user/sign-up"
+                }
+            }
+        },
         "dto.HttpErr": {
             "type": "object",
             "required": [
@@ -485,6 +814,24 @@ const docTemplate = `{
                 "project_name": {
                     "type": "string",
                     "example": "Project Syntegra"
+                }
+            }
+        },
+        "dto.ServiceCreate": {
+            "type": "object",
+            "required": [
+                "name",
+                "project_id"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "user"
+                },
+                "project_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "550e8400-e29b-41d4-a716-446655440000"
                 }
             }
         },

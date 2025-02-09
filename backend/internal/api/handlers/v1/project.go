@@ -11,11 +11,15 @@ func NewProjectHandler() *projectHandler {
 
 func (uh *projectHandler) Setup(r fiber.Router) {
 	p := r.Group("/project")
+	// create/edit project
 	p.Post("", uh.Create)
 	p.Patch("/", uh.Edit)
-	p.Post("/:project_id<guid/>/:username", uh.Invite)
-	p.Delete("/:project_id<guid/>/:username", uh.UnInvite)
-	p.Get("/:project_id<guid/>/contributors", uh.ListContributors)
+	// invite/kick contributors
+	byId := p.Group("/:project_id<guid/>")
+	byId.Post("/:username", uh.Invite)
+	byId.Delete("/:username", uh.UnInvite)
+	// list all contributors
+	byId.Get("/contributors", uh.ListContributors)
 
 }
 
@@ -66,7 +70,7 @@ func (uh *projectHandler) Edit(c *fiber.Ctx) error {
 //	@Failure	400	{object}	dto.HttpErr
 //	@Failure	403	{object}	dto.HttpErr
 //	@Failure	401	{object}	dto.HttpErr
-//	@Router		/project/{id}/invite/{username} [post]
+//	@Router		/project/{project_id}/invite/{username} [post]
 func (uh *projectHandler) Invite(c *fiber.Ctx) error {
 	return nil
 }
@@ -75,16 +79,16 @@ func (uh *projectHandler) Invite(c *fiber.Ctx) error {
 //
 //	@Tags		project
 //	@Summary	delete user from project
+//	@Param		project_id	path	string	true	"Project id"
+//	@Param		username	path	string	true	"User name"
 //	@Security	Bearer
-//	@Param		project_id		path	string	true	"Project id"
-//	@Param		username		path	string	true	"User name"
 //	@Param		Authorization	header	string	true	"access token 'Bearer {token}'"
 //	@Produce	json
 //	@Success	200	{object}	dto.OkResponse
 //	@Failure	400	{object}	dto.HttpErr
 //	@Failure	403	{object}	dto.HttpErr
 //	@Failure	401	{object}	dto.HttpErr
-//	@Router		/project/{id}/invite/{username} [delete]
+//	@Router		/project/{project_id}/invite/{username} [delete]
 func (uh *projectHandler) UnInvite(c *fiber.Ctx) error {
 	return nil
 }
@@ -101,7 +105,7 @@ func (uh *projectHandler) UnInvite(c *fiber.Ctx) error {
 //	@Failure	400	{object}	dto.HttpErr
 //	@Failure	403	{object}	dto.HttpErr
 //	@Failure	401	{object}	dto.HttpErr
-//	@Router		/project/{id}/contributors [get]
+//	@Router		/project/{project_id}/contributors [get]
 func (uh *projectHandler) ListContributors(c *fiber.Ctx) error {
 	return nil
 }

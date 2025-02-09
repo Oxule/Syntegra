@@ -1,0 +1,16 @@
+package dto
+
+import "github.com/google/uuid"
+
+type ServiceCreate struct {
+	ProjectId uuid.UUID `json:"project_id" validate:"required" example:"550e8400-e29b-41d4-a716-446655440000" format:"uuid"`
+	Name      string    `json:"name" validate:"required" example:"user"`
+}
+
+type EndpointCreate struct {
+	Name        string         `json:"name" validate:"required" example:"user sign-up endpoint"`
+	Description string         `json:"description" example:"creates new user and return access token"`
+	Path        string         `json:"path" validate:"required" example:"/user/sign-up"`
+	Method      string         `json:"method" validate:"required,oneofci=GET POST PUT PATCH DELETE" enums:"GET,POST,PUT,PATCH,DELETE" example:"POST"`
+	Details     map[string]any `json:"details"`
+}

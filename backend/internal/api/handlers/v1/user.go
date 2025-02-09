@@ -13,6 +13,8 @@ func (uh *userHandler) Setup(r fiber.Router) {
 	u := r.Group("/user")
 	u.Post("/sign-in", uh.Login)
 	u.Get("/projects", uh.MyProjects)
+	u.Get("/projects/:project_id<guid/>/endpoints", uh.MyEndpointsInProject)
+	u.Post("/projects/:project_id<guid/>/endpoints/:endpoint_id<guid/>", uh.SubmitCompletion)
 
 }
 
@@ -42,5 +44,35 @@ func (uh *userHandler) Login(c *fiber.Ctx) error {
 //	@Failure	401	{object}	dto.HttpErr
 //	@Router		/user/projects [get]
 func (uh *userHandler) MyProjects(c *fiber.Ctx) error {
+	return nil
+}
+
+// ListEndpoints godoc
+//
+//	@Tags		user
+//	@Summary	get list of user endpoints inside given project
+//
+//	@Security	Bearer
+//	@Param		Authorization	header	string	true	"access token 'Bearer {token}'"
+//	@Produce	json
+//	@Success	200	{array}		dto.ProjectView
+//	@Failure	401	{object}	dto.HttpErr
+//	@Router		/user/projects/{project_id}/endpoints [get]
+func (uh *userHandler) MyEndpointsInProject(c *fiber.Ctx) error {
+	return nil
+}
+
+// ListEndpoints godoc
+//
+//	@Tags		user
+//	@Summary	submit completion of endpoint
+//
+//	@Security	Bearer
+//	@Param		Authorization	header	string	true	"access token 'Bearer {token}'"
+//	@Produce	json
+//	@Success	200	{array}		dto.ProjectView
+//	@Failure	401	{object}	dto.HttpErr
+//	@Router		/user/projects/{project_id}/endpoints/{endpoint_id} [post]
+func (uh *userHandler) SubmitCompletion(c *fiber.Ctx) error {
 	return nil
 }
