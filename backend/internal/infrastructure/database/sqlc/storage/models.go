@@ -17,6 +17,8 @@ type Endpoint struct {
 	Path         string
 	Method       string
 	Description  string
+	RequestData  []byte
+	ResponseData []byte
 }
 
 type Project struct {

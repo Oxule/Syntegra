@@ -11,6 +11,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    restart: always
 
   postgres:
     container_name: postgres
@@ -24,7 +25,9 @@ services:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
-      retries: 3
+      retries: 5
       start_period: 5s
+
+    restart: always
 
 
