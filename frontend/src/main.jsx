@@ -12,6 +12,7 @@ import {Navbar} from "./Navbar/Navbar.jsx";
 import {AuthConfig, AuthProvider} from "./Auth.tsx";
 import {Test} from "./Test.jsx";
 import {AutoAlt} from "./AutoAlt.jsx";
+import {Project} from "./Project.jsx";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -20,11 +21,14 @@ createRoot(document.getElementById('root')).render(
           <AuthProvider config={new AuthConfig()}>
               <BrowserRouter>
                   <Navbar/>
-                  <Routes>
-                      <Route path={"/login"} element={<Login/>}/>
-                      <Route path={"/"} element={<Projects/>}/>
-                      <Route path={"/test"} element={<Test/>}/>
-                  </Routes>
+                  <div className={"body"}>
+                      <Routes>
+                          <Route path={"/login"} element={<Login/>}/>
+                          <Route path={"/"} element={<Projects/>}/>
+                          <Route path={"/:id"} element={<Project/>}/>
+                          <Route path={"/test"} element={<Test/>}/>
+                      </Routes>
+                  </div>
               </BrowserRouter>
           </AuthProvider>
       </MantineProvider>
