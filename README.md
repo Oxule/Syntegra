@@ -9,11 +9,6 @@
 * Just pre-defined in config login/password combinations
 * In fact, everyone WILL be trusted people
 
-## Project details storage
-**IMPORTANT**
-
-Every element in project (Services, Endpoints, Schemes, etc.) MUST be contained as one complex json in project entity
-
 ## Average-case scenario
 ### User A
 1. Login
@@ -51,16 +46,23 @@ Every element in project (Services, Endpoints, Schemes, etc.) MUST be contained 
 ### Project
 * Creator
 * Members
-* Schemes(as JSON; including services)
+* Schemes
 * Endpoints
 * CreatedAt
 
+### Scheme
+* Type (**Structure**, Service[Tag], Auth, etc.)
+* Name
+* Details (JSON)
+
 ### Endpoint
 * Hash
-* Name
-* Description?
-* Method
 * Route
+* Method
 * JsonDetails
-* AssignedUser?
 * Progress
+
+### EndpointProgress
+* Endpoint
+* AssignedUser
+* State
