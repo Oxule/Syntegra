@@ -1,4 +1,4 @@
-import {Badge, Button, Card, Group, Title, Text} from "@mantine/core";
+import {Card, Title, Text} from "@mantine/core";
 
 function Projects() {
 
@@ -16,20 +16,38 @@ function Projects() {
 
     return (
         //TODO: fix grid layout
-        <div className={"projects-grid"}>
-            <Project info={{
-                name: "some project",
-                description: "description",
-                createdAt: "09-02-2025",
-                uuid: "321"
-            }}/>
-            <Project info={{
-                name: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti eius iure quas. Atque consequatur cum, ea eius eligendi et eum ex exercitationem, expedita fugiat hic incidunt itaque molestiae mollitia nam nemo nisi odit officia pariatur perferendis repellendus saepe, vitae. Dolores, facilis, molestiae. Corporis eveniet excepturi magni, non reprehenderit sequi voluptate.",
-                description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti eius iure quas. Atque consequatur cum, ea eius eligendi et eum ex exercitationem, expedita fugiat hic incidunt itaque molestiae mollitia nam nemo nisi odit officia pariatur perferendis repellendus saepe, vitae. Dolores, facilis, molestiae. Corporis eveniet excepturi magni, non reprehenderit sequi voluptate.",
-                createdAt: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti eius iure quas. Atque consequatur cum, ea eius eligendi et eum ex exercitationem, expedita fugiat hic incidunt itaque molestiae mollitia nam nemo nisi odit officia pariatur perferendis repellendus saepe, vitae. Dolores, facilis, molestiae. Corporis eveniet excepturi magni, non reprehenderit sequi voluptate.",
-                uuid: "123"
-            }}/>
-        </div>
+        <>
+            <Title order={3} style={{marginBottom: "16px"}}>My projects</Title>
+            <div className={"projects-grid"}>
+                <Project info={{
+                    name: "some project",
+                    description: "description",
+                    createdAt: "09-02-2025",
+                    uuid: "321"
+                }}/>
+                <Project info={{
+                    name: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti eius iure quas. Atque consequatur cum, ea eius eligendi et eum ex exercitationem, expedita fugiat hic incidunt itaque molestiae mollitia nam nemo nisi odit officia pariatur perferendis repellendus saepe, vitae. Dolores, facilis, molestiae. Corporis eveniet excepturi magni, non reprehenderit sequi voluptate.",
+                    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti eius iure quas. Atque consequatur cum, ea eius eligendi et eum ex exercitationem, expedita fugiat hic incidunt itaque molestiae mollitia nam nemo nisi odit officia pariatur perferendis repellendus saepe, vitae. Dolores, facilis, molestiae. Corporis eveniet excepturi magni, non reprehenderit sequi voluptate.",
+                    createdAt: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti eius iure quas. Atque consequatur cum, ea eius eligendi et eum ex exercitationem, expedita fugiat hic incidunt itaque molestiae mollitia nam nemo nisi odit officia pariatur perferendis repellendus saepe, vitae. Dolores, facilis, molestiae. Corporis eveniet excepturi magni, non reprehenderit sequi voluptate.",
+                    uuid: "123"
+                }}/>
+            </div>
+            <Title order={3} style={{marginBottom: "16px", marginTop: "16px"}}>Invited Projects</Title>
+            <div className={"projects-grid"}>
+                <Project info={{
+                    name: "some project",
+                    description: "description",
+                    createdAt: "09-02-2025",
+                    uuid: "321"
+                }}/>
+                <Project info={{
+                    name: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti eius iure quas. Atque consequatur cum, ea eius eligendi et eum ex exercitationem, expedita fugiat hic incidunt itaque molestiae mollitia nam nemo nisi odit officia pariatur perferendis repellendus saepe, vitae. Dolores, facilis, molestiae. Corporis eveniet excepturi magni, non reprehenderit sequi voluptate.",
+                    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti eius iure quas. Atque consequatur cum, ea eius eligendi et eum ex exercitationem, expedita fugiat hic incidunt itaque molestiae mollitia nam nemo nisi odit officia pariatur perferendis repellendus saepe, vitae. Dolores, facilis, molestiae. Corporis eveniet excepturi magni, non reprehenderit sequi voluptate.",
+                    createdAt: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti eius iure quas. Atque consequatur cum, ea eius eligendi et eum ex exercitationem, expedita fugiat hic incidunt itaque molestiae mollitia nam nemo nisi odit officia pariatur perferendis repellendus saepe, vitae. Dolores, facilis, molestiae. Corporis eveniet excepturi magni, non reprehenderit sequi voluptate.",
+                    uuid: "123"
+                }}/>
+            </div>
+        </>
     )
 }
 
