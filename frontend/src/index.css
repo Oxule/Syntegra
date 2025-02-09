@@ -4,11 +4,15 @@
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 16px;
     justify-items: stretch;
+
 }
 .projects-card{
     min-width: 250px;
+    max-width: 400px;
     width: 100%;
     height: 200px;
     margin: auto;
-    border-radius: 16px;
+}
+a{
+    text-decoration: none;
 }
