@@ -15,13 +15,13 @@ function Projects() {
     }
 
     function AddProjectButton(){
+        //TODO: севочка, прикрути ручку + dialogwindow
         return <div className={"projects-card button-raw add-button projects-card-add"}>
             Add
         </div>;
     }
 
     return (
-        //TODO: fix grid layout
         <>
             <Title order={3} style={{marginBottom: "16px"}}>My projects</Title>
             <div className={"projects-grid"}>

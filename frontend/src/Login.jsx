@@ -17,7 +17,7 @@ function Login() {
     const navigate = useNavigate();
 
     const submitForm = (values) => {
-        //TODO: login action
+        //TODO: севочка, миша уже скинул ручки, приделай логин. надо будет выводить попап есль ошибка/неверные данные
         console.log(values)
 
         login("test", new Date(Date.now() + (4*60*60*1000)), {name: "Test"});

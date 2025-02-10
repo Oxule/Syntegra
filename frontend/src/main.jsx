@@ -12,7 +12,7 @@ import {Navbar} from "./Navbar/Navbar.jsx";
 import {AuthConfig, AuthProvider} from "./Auth.tsx";
 import {Test} from "./Test.jsx";
 import {AutoAlt} from "./AutoAlt.jsx";
-import {Project} from "./Project.jsx";
+import {Project} from "./Project/Project.jsx";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
