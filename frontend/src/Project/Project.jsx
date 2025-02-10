@@ -18,8 +18,12 @@ export function Project() {
     const schemes = [
         {
             id: "1",
-            name: "createUser",
+            name: "CreateUser",
             fields:[
+                {
+                    name: "id",
+                    type: "schemes.Id"
+                },
                 {
                     name: "name",
                     type: "string",
@@ -34,7 +38,7 @@ export function Project() {
         },
         {
             id: "2",
-            name: "id",
+            name: "Id",
             fields: [
                 {
                     name: "this",

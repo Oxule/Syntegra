@@ -4,6 +4,8 @@ import {BrowserRouter, Route, Routes} from "react-router"
 import './index.css'
 import './buttons.css'
 import './overflow.css'
+import "./Scheme/SchemeHighlight.js";
+import '@mantine/code-highlight/styles.css';
 import Login from "./Login.jsx";
 import Projects from "./Projects.jsx";
 import {MantineProvider} from "@mantine/core";
