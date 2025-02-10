@@ -1,4 +1,4 @@
-import {Accordion, Badge, Divider, Flex, Text, Title} from "@mantine/core";
+import {Accordion, Badge, Divider, Flex, Table, Text, Title} from "@mantine/core";
 import {RenderSeparated} from "../Utils.js";
 
 export function Endpoints({endpoints, schemes}) {
@@ -13,19 +13,52 @@ export function Endpoints({endpoints, schemes}) {
                     return <Text c="dimmed">Empty request</Text>
                 }
 
-                if(request.query && request.query.length != 0){
+                const parameters = [];
+
+                if(request.query && request.query.length !== 0){
+                    parameters.push(request.query.map(x=>(
+                        <Table.Tr key={x.name}>
+                            <Table.Td>
+                                <Text size={"xl"}>{x.name} {(!x.default) && <div style={{
+                                    display: "inline",
+                                    color: "var(--mantine-color-red-text)",
+                                    fontSize: "12px"
+                                }}>REQUIRED</div>}</Text>
+                            </Table.Td>
+                            <Table.Td><Text size={"xl"}>{x.type}</Text></Table.Td>
+                            <Table.Td><Text size={"xl"}>Query</Text></Table.Td>
+                            <Table.Td><Text size={"lg"}>{x.description}</Text></Table.Td>
+                        </Table.Tr>
+                    )));
+                }
+                if(request.path && request.path.length !== 0){
+                    parameters.push(request.path.map(x=>(
+                        <Table.Tr key={x.name}>
+                            <Table.Td>
+                                <Text size={"xl"}>{x.name} <div style={{display: "inline", color: "var(--mantine-color-red-text)", fontSize: "12px"}}>REQUIRED</div></Text>
+                            </Table.Td>
+                            <Table.Td><Text size={"xl"}>{x.type}</Text></Table.Td>
+                            <Table.Td><Text size={"xl"}>Path</Text></Table.Td>
+                            <Table.Td><Text size={"lg"}>{x.description}</Text></Table.Td>
+                        </Table.Tr>
+                    )));
+                }
+
+                if(parameters.length !== 0){
                     content.push(<>
-                        <Title order={3}>Query parameters</Title>
-                        {RenderSeparated(
-                            request.query.map((x,i)=>(
-                                <div key={i}>
-                                    <Flex direction={"row"} wrap={"wrap"} justify={"start"} gap={"min(max(64px, 25%), 160px)"}>
-                                        <Text size={"lg"}>{x.name}</Text>
-                                    </Flex>
-                                </div>
-                            )),
-                            <Divider my="sm"/>
-                        )}
+                        <Table>
+                            <Table.Thead>
+                                <Table.Tr>
+                                    <Table.Th>Name</Table.Th>
+                                    <Table.Th>Type</Table.Th>
+                                    <Table.Th>Where</Table.Th>
+                                    <Table.Th>Description</Table.Th>
+                                </Table.Tr>
+                            </Table.Thead>
+                            <Table.Tbody>
+                                {parameters}
+                            </Table.Tbody>
+                        </Table>
                     </>);
                 }
 
