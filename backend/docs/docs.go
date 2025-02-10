@@ -885,11 +885,11 @@ const docTemplate = `{
         "dto.UserLogin": {
             "type": "object",
             "required": [
-                "email",
+                "name",
                 "password"
             ],
             "properties": {
-                "email": {
+                "name": {
                     "type": "string",
                     "example": "yoyoyo@femail.ru"
                 },

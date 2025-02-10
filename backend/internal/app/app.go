@@ -9,6 +9,9 @@ import (
 	"Syntegra/backend/internal/api/middleware"
 	"Syntegra/backend/internal/config"
 	"Syntegra/backend/internal/infrastructure/database"
+	"Syntegra/backend/internal/repository"
+	"Syntegra/backend/internal/service"
+	"Syntegra/backend/internal/utils"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -37,7 +40,7 @@ func (app *App) Start() {
 func (app *App) init(ctx context.Context) {
 	app.connectDB(ctx)
 	app.engineSetup(ctx)
-	app.handlersSetup()
+	app.handlersSetup(ctx)
 }
 
 func (app *App) connectDB(ctx context.Context) {
@@ -56,16 +59,26 @@ func (app *App) engineSetup(ctx context.Context) {
 	app.Fiber.Use(middleware.CustomContext(ctx))
 }
 
-func (app *App) handlersSetup() {
+func (app *App) handlersSetup(ctx context.Context) {
 	// route groups
 	apiV1 := app.Fiber.Group("/api/v1")
 
 	//add swagger spec
 	apiV1.Get("docs/*", swagger.HandlerDefault)
 
-	// all handlers and services
-	userHandler := v1.NewUserHandler()
+	// repos
+	userRepo := repository.NewUserRepository(app.DB)
+	// services
+	authService := service.NewAuthService(app.Config.SecretKey)
+	log.Print(utils.HashPassword("qwerty123"))
+	userService := service.NewUserService(authService, userRepo)
+
+	// handlers
+	userHandler := v1.NewUserHandler(userService, app.Config.TrustedUsers())
 	projectHandler := v1.NewProjectHandler()
+
+	// setup
+	userService.RegisterTrusted(ctx, app.Config.TrustedUsers())
 	userHandler.Setup(apiV1)
 	projectHandler.Setup(apiV1)
 

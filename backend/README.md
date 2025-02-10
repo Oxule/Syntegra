@@ -19,6 +19,8 @@ docs/swagger.json
 ```
 
 
+
 ## DB SCHEME
+
 
 ![Schema](./media/syntegra_db.png)

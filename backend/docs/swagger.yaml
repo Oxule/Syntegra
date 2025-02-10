@@ -124,14 +124,14 @@ definitions:
     type: object
   dto.UserLogin:
     properties:
-      email:
+      name:
         example: yoyoyo@femail.ru
         type: string
       password:
         example: qwerty234sraiekvaroisehw{}$
         type: string
     required:
-    - email
+    - name
     - password
     type: object
 host: localhost:3000
