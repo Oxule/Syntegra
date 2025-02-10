@@ -1,10 +1,23 @@
 import {Accordion, Badge, Divider, Flex, Table, Text, Title} from "@mantine/core";
 import {RenderSeparated} from "../Utils.js";
+import {convertScheme} from "../Scheme/SchemeLangGeneration.js";
+import {CodeHighlight} from "@mantine/code-highlight";
 
 export function Endpoints({endpoints, schemes}) {
 
     function Endpoint({info}) {
         function EndpointInfo(){
+
+            function DisplayBody({body}){
+                let code = body;
+                const prefix = "scheme.";
+                if(body.startsWith(prefix))
+                    code = convertScheme(schemes, body.substring(prefix.length, body.length));
+                return <div style={{marginTop: "16px"}}>
+                    <Title order={3} style={{marginBottom: "4px"}}>Body</Title>
+                    <CodeHighlight code={code} lang={"cs"}/>
+                </div>
+            }
 
             function EndpointRequest({request}){
                 const content = [];
@@ -60,6 +73,10 @@ export function Endpoints({endpoints, schemes}) {
                             </Table.Tbody>
                         </Table>
                     </>);
+                }
+
+                if(request.body){
+                    content.push(<DisplayBody body={request.body}/>)
                 }
 
                 if(content.length == 0){
