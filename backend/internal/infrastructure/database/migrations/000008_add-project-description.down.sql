@@ -1,2 +1,2 @@
 ALTER TABLE projects
-    DROP description;
+    DROP desctiption;

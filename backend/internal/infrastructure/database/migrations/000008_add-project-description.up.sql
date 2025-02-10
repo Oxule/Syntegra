@@ -1,2 +1,2 @@
 ALTER TABLE projects
-    ADD desctiption text;
+    ADD desctiption text NOT NULL DEFAULT '';
