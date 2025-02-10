@@ -22,6 +22,10 @@ export function Test() {
                     description: "length [3-64]"
                 },
                 {
+                    name: "surname",
+                    type: "string"
+                },
+                {
                     name: "roles",
                     type: "string[]",
                     description: "User roles in the system",

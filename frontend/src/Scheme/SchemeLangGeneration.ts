@@ -117,9 +117,9 @@ function formatFields(
                     result += indent + "  " + "/* cyclic reference: " + nestedScheme.name + " */\n";
                 } else {
                     visited[nestedScheme.name] = true;
-                    result += indent + "  " + "{\n";
+                    result += indent + "{\n";
                     result += formatFields(nestedScheme.fields, schemes, indent + "    ", visited);
-                    result += indent + "  " + "}\n";
+                    result += indent + "}\n";
                 }
             }
         }
@@ -152,7 +152,7 @@ export function convertScheme(schemes: Scheme[], schemeName: string): string {
     visited[scheme.name] = true;
 
     let result = scheme.name + "\n{\n";
-    result += formatFields(scheme.fields, schemes, "  ", visited);
+    result += formatFields(scheme.fields, schemes, "    ", visited);
     result += "}";
     return result;
 }
