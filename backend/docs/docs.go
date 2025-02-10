@@ -316,7 +316,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/schema/{service_id}/endpoint": {
+        "/schema/{schema_id}/endpoint": {
             "post": {
                 "security": [
                     {
@@ -332,7 +332,7 @@ const docTemplate = `{
                 "tags": [
                     "endpoint"
                 ],
-                "summary": "create new endpoint inside of service",
+                "summary": "create new endpoint",
                 "parameters": [
                     {
                         "type": "string",
@@ -352,8 +352,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Service Id",
-                        "name": "service_id",
+                        "description": "Schema Id",
+                        "name": "schema_id",
                         "in": "path",
                         "required": true
                     }
@@ -386,7 +386,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/schema/{service_id}/endpoint/{endpoint_id}/assign/{username}": {
+        "/schema/{schema_id}/endpoint/{endpoint_id}/assign/{username}": {
             "post": {
                 "security": [
                     {
@@ -413,8 +413,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Service Id",
-                        "name": "service_id",
+                        "description": "Schema Id",
+                        "name": "schema_id",
                         "in": "path",
                         "required": true
                     },
@@ -477,7 +477,7 @@ const docTemplate = `{
                 "tags": [
                     "endpoint"
                 ],
-                "summary": "create new service inside of project",
+                "summary": "create new schema inside of project",
                 "parameters": [
                     {
                         "type": "string",
@@ -720,10 +720,6 @@ const docTemplate = `{
                 "path"
             ],
             "properties": {
-                "description": {
-                    "type": "string",
-                    "example": "creates new user and return access token"
-                },
                 "method": {
                     "type": "string",
                     "enum": [

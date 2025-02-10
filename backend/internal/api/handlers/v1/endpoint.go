@@ -22,10 +22,10 @@ func (uh *endpointHandler) Setup(r fiber.Router) {
 
 }
 
-// ServiceCreate godoc
+// SchemaCreate godoc
 //
 //	@Tags		endpoint
-//	@Summary	create new service inside of project
+//	@Summary	create new schema inside of project
 //	@Security	Bearer
 //	@Param		Authorization	header	string				true	"access token 'Bearer {token}'"
 //	@Param		RequestBody		body	dto.SchemaCreate	true	"schema body"
@@ -43,18 +43,18 @@ func (uh *endpointHandler) CreateSchema(c *fiber.Ctx) error {
 // EndpointCreate godoc
 //
 //	@Tags		endpoint
-//	@Summary	create new endpoint inside of service
+//	@Summary	create new endpoint
 //	@Security	Bearer
 //	@Param		Authorization	header	string				true	"access token 'Bearer {token}'"
 //	@Param		RequestBody		body	dto.EndpointCreate	true	"body"
-//	@Param		service_id		path	string				true	"Service Id"
+//	@Param		schema_id		path	string				true	"Schema Id"
 //	@Accept		json
 //	@Produce	json
 //	@Success	201	{object}	dto.OkResponse
 //	@Failure	401	{object}	dto.HttpErr
 //	@Failure	403	{object}	dto.HttpErr
 //	@Failure	400	{object}	dto.HttpErr
-//	@Router		/schema/{service_id}/endpoint [post]
+//	@Router		/schema/{schema_id}/endpoint [post]
 func (uh *endpointHandler) CreateEndpoint(c *fiber.Ctx) error {
 	return nil
 }
@@ -65,7 +65,7 @@ func (uh *endpointHandler) CreateEndpoint(c *fiber.Ctx) error {
 //	@Summary	assign endpoint to contributor
 //	@Security	Bearer
 //	@Param		Authorization	header	string	true	"access token 'Bearer {token}'"
-//	@Param		service_id		path	string	true	"Service Id"
+//	@Param		schema_id		path	string	true	"Schema Id"
 //	@Param		endpoint_id		path	string	true	"Endpoint Id"
 //	@Param		username		path	string	true	"username"
 //	@Accept		json
@@ -74,7 +74,7 @@ func (uh *endpointHandler) CreateEndpoint(c *fiber.Ctx) error {
 //	@Failure	401	{object}	dto.HttpErr
 //	@Failure	403	{object}	dto.HttpErr
 //	@Failure	400	{object}	dto.HttpErr
-//	@Router		/schema/{service_id}/endpoint/{endpoint_id}/assign/{username} [post]
+//	@Router		/schema/{schema_id}/endpoint/{endpoint_id}/assign/{username} [post]
 func (uh *endpointHandler) AssignEndpoint(c *fiber.Ctx) error {
 	return nil
 }

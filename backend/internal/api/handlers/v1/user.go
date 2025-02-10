@@ -12,10 +12,14 @@ func NewUserHandler() *userHandler {
 func (uh *userHandler) Setup(r fiber.Router) {
 	u := r.Group("/user")
 	u.Post("/sign-in", uh.Login)
+	u.Post("/sign-up", uh.Register)
 	u.Get("/projects", uh.MyProjects)
 	u.Get("/projects/:project_id<guid/>/endpoints", uh.MyEndpointsInProject)
 	u.Post("/projects/:project_id<guid/>/endpoints/:endpoint_id<guid/>", uh.SubmitCompletion)
 
+}
+func (uh *userHandler) Register(c *fiber.Ctx) error {
+	return nil
 }
 
 // LoginUser godoc

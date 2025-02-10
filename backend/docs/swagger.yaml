@@ -2,9 +2,6 @@ basePath: /api/v1
 definitions:
   dto.EndpointCreate:
     properties:
-      description:
-        example: creates new user and return access token
-        type: string
       method:
         enum:
         - GET
@@ -332,7 +329,7 @@ paths:
       summary: invite to project
       tags:
       - project
-  /schema/{service_id}/endpoint:
+  /schema/{schema_id}/endpoint:
     post:
       consumes:
       - application/json
@@ -348,9 +345,9 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/dto.EndpointCreate'
-      - description: Service Id
+      - description: Schema Id
         in: path
-        name: service_id
+        name: schema_id
         required: true
         type: string
       produces:
@@ -374,10 +371,10 @@ paths:
             $ref: '#/definitions/dto.HttpErr'
       security:
       - Bearer: []
-      summary: create new endpoint inside of service
+      summary: create new endpoint
       tags:
       - endpoint
-  /schema/{service_id}/endpoint/{endpoint_id}/assign/{username}:
+  /schema/{schema_id}/endpoint/{endpoint_id}/assign/{username}:
     post:
       consumes:
       - application/json
@@ -387,9 +384,9 @@ paths:
         name: Authorization
         required: true
         type: string
-      - description: Service Id
+      - description: Schema Id
         in: path
-        name: service_id
+        name: schema_id
         required: true
         type: string
       - description: Endpoint Id
@@ -463,7 +460,7 @@ paths:
             $ref: '#/definitions/dto.HttpErr'
       security:
       - Bearer: []
-      summary: create new service inside of project
+      summary: create new schema inside of project
       tags:
       - endpoint
   /user/projects:
