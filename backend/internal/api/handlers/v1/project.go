@@ -32,7 +32,7 @@ func (uh *projectHandler) Setup(r fiber.Router) {
 //	@Param		Authorization	header	string	true	"access token 'Bearer {token}'"
 //	@Accept		json
 //	@Produce	json
-//	@Success	200	{object}	dto.OkResponse
+//	@Success	201	{object}	dto.ProjectView
 //	@Failure	400	{object}	dto.HttpErr
 //	@Failure	401	{object}	dto.HttpErr
 //	@Router		/project [post]

@@ -9,11 +9,16 @@ import (
 	"context"
 )
 
-const exampleUser = `-- name: ExampleUser :exec
-select (1) from users
+const createUser = `-- name: CreateUser :exec
+insert into users(name, password) values ($1, $2)
 `
 
-func (q *Queries) ExampleUser(ctx context.Context) error {
-	_, err := q.db.Exec(ctx, exampleUser)
+type CreateUserParams struct {
+	Name     string
+	Password string
+}
+
+func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) error {
+	_, err := q.db.Exec(ctx, createUser, arg.Name, arg.Password)
 	return err
 }

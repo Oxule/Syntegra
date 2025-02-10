@@ -1,2 +1,3 @@
--- name: ExampleUser :exec
-select (1) from users;
+-- name: CreateUser :exec
+insert into users(name, password) values ($1, $2);
+
