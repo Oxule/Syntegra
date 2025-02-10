@@ -11,7 +11,7 @@ func NewEndpointHandler() *endpointHandler {
 func (uh *endpointHandler) Setup(r fiber.Router) {
 	// service create/edit
 	s := r.Group("/service")
-	s.Post("/", uh.CreateService)
+	s.Post("/", uh.CreateSchema)
 
 	// endpoint create/edit
 	serviceById := s.Group("/:service_id<guid/>")
@@ -24,25 +24,25 @@ func (uh *endpointHandler) Setup(r fiber.Router) {
 
 // ServiceCreate godoc
 //
-//	@Tags		service
+//	@Tags		endpoint
 //	@Summary	create new service inside of project
 //	@Security	Bearer
 //	@Param		Authorization	header	string				true	"access token 'Bearer {token}'"
-//	@Param		RequestBody		body	dto.ServiceCreate	true	"body"
+//	@Param		RequestBody		body	dto.SchemaCreate	true	"schema body"
 //	@Accept		json
 //	@Produce	json
 //	@Success	201	{object}	dto.OkResponse
 //	@Failure	401	{object}	dto.HttpErr
 //	@Failure	403	{object}	dto.HttpErr
 //	@Failure	400	{object}	dto.HttpErr
-//	@Router		/service [post]
-func (uh *endpointHandler) CreateService(c *fiber.Ctx) error {
+//	@Router		/shema [post]
+func (uh *endpointHandler) CreateSchema(c *fiber.Ctx) error {
 	return nil
 }
 
 // EndpointCreate godoc
 //
-//	@Tags		service
+//	@Tags		endpoint
 //	@Summary	create new endpoint inside of service
 //	@Security	Bearer
 //	@Param		Authorization	header	string				true	"access token 'Bearer {token}'"
@@ -54,14 +54,14 @@ func (uh *endpointHandler) CreateService(c *fiber.Ctx) error {
 //	@Failure	401	{object}	dto.HttpErr
 //	@Failure	403	{object}	dto.HttpErr
 //	@Failure	400	{object}	dto.HttpErr
-//	@Router		/service/{service_id}/endpoint [post]
+//	@Router		/schema/{service_id}/endpoint [post]
 func (uh *endpointHandler) CreateEndpoint(c *fiber.Ctx) error {
 	return nil
 }
 
 // EndpointAssign godoc
 //
-//	@Tags		service
+//	@Tags		endpoint
 //	@Summary	assign endpoint to contributor
 //	@Security	Bearer
 //	@Param		Authorization	header	string	true	"access token 'Bearer {token}'"
@@ -74,7 +74,7 @@ func (uh *endpointHandler) CreateEndpoint(c *fiber.Ctx) error {
 //	@Failure	401	{object}	dto.HttpErr
 //	@Failure	403	{object}	dto.HttpErr
 //	@Failure	400	{object}	dto.HttpErr
-//	@Router		/service/{service_id}/endpoint/{endpoint_id}/assign/{username} [post]
+//	@Router		/schema/{service_id}/endpoint/{endpoint_id}/assign/{username} [post]
 func (uh *endpointHandler) AssignEndpoint(c *fiber.Ctx) error {
 	return nil
 }

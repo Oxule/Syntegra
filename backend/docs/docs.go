@@ -316,7 +316,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/service": {
+        "/schema/{service_id}/endpoint": {
             "post": {
                 "security": [
                     {
@@ -330,70 +330,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "service"
-                ],
-                "summary": "create new service inside of project",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "access token 'Bearer {token}'",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "body",
-                        "name": "RequestBody",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.ServiceCreate"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/dto.OkResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dto.HttpErr"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/dto.HttpErr"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/dto.HttpErr"
-                        }
-                    }
-                }
-            }
-        },
-        "/service/{service_id}/endpoint": {
-            "post": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "service"
+                    "endpoint"
                 ],
                 "summary": "create new endpoint inside of service",
                 "parameters": [
@@ -449,7 +386,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/service/{service_id}/endpoint/{endpoint_id}/assign/{username}": {
+        "/schema/{service_id}/endpoint/{endpoint_id}/assign/{username}": {
             "post": {
                 "security": [
                     {
@@ -463,7 +400,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "service"
+                    "endpoint"
                 ],
                 "summary": "assign endpoint to contributor",
                 "parameters": [
@@ -494,6 +431,69 @@ const docTemplate = `{
                         "name": "username",
                         "in": "path",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.OkResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.HttpErr"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.HttpErr"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.HttpErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/shema": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "endpoint"
+                ],
+                "summary": "create new service inside of project",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "access token 'Bearer {token}'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "schema body",
+                        "name": "RequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.SchemaCreate"
+                        }
                     }
                 ],
                 "responses": {
@@ -587,6 +587,13 @@ const docTemplate = `{
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Project Id",
+                        "name": "project_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -628,6 +635,20 @@ const docTemplate = `{
                         "description": "access token 'Bearer {token}'",
                         "name": "Authorization",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Project Id",
+                        "name": "project_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Endpoint Id",
+                        "name": "endpoint_id",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -702,10 +723,6 @@ const docTemplate = `{
                 "description": {
                     "type": "string",
                     "example": "creates new user and return access token"
-                },
-                "details": {
-                    "type": "object",
-                    "additionalProperties": {}
                 },
                 "method": {
                     "type": "string",
@@ -817,21 +834,33 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.ServiceCreate": {
+        "dto.SchemaCreate": {
             "type": "object",
             "required": [
+                "details",
                 "name",
                 "project_id"
             ],
             "properties": {
+                "details": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
                 "name": {
                     "type": "string",
                     "example": "user"
+                },
+                "needs_auth": {
+                    "type": "boolean",
+                    "example": false
                 },
                 "project_id": {
                     "type": "string",
                     "format": "uuid",
                     "example": "550e8400-e29b-41d4-a716-446655440000"
+                },
+                "service_tag": {
+                    "type": "string"
                 }
             }
         },

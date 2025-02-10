@@ -5,9 +5,6 @@ definitions:
       description:
         example: creates new user and return access token
         type: string
-      details:
-        additionalProperties: {}
-        type: object
       method:
         enum:
         - GET
@@ -90,16 +87,25 @@ definitions:
     - project_id
     - project_name
     type: object
-  dto.ServiceCreate:
+  dto.SchemaCreate:
     properties:
+      details:
+        additionalProperties: {}
+        type: object
       name:
         example: user
         type: string
+      needs_auth:
+        example: false
+        type: boolean
       project_id:
         example: 550e8400-e29b-41d4-a716-446655440000
         format: uuid
         type: string
+      service_tag:
+        type: string
     required:
+    - details
     - name
     - project_id
     type: object
@@ -326,47 +332,7 @@ paths:
       summary: invite to project
       tags:
       - project
-  /service:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: access token 'Bearer {token}'
-        in: header
-        name: Authorization
-        required: true
-        type: string
-      - description: body
-        in: body
-        name: RequestBody
-        required: true
-        schema:
-          $ref: '#/definitions/dto.ServiceCreate'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/dto.OkResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dto.HttpErr'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/dto.HttpErr'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/dto.HttpErr'
-      security:
-      - Bearer: []
-      summary: create new service inside of project
-      tags:
-      - service
-  /service/{service_id}/endpoint:
+  /schema/{service_id}/endpoint:
     post:
       consumes:
       - application/json
@@ -410,8 +376,8 @@ paths:
       - Bearer: []
       summary: create new endpoint inside of service
       tags:
-      - service
-  /service/{service_id}/endpoint/{endpoint_id}/assign/{username}:
+      - endpoint
+  /schema/{service_id}/endpoint/{endpoint_id}/assign/{username}:
     post:
       consumes:
       - application/json
@@ -459,7 +425,47 @@ paths:
       - Bearer: []
       summary: assign endpoint to contributor
       tags:
-      - service
+      - endpoint
+  /shema:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: access token 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: schema body
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SchemaCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.OkResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.HttpErr'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.HttpErr'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.HttpErr'
+      security:
+      - Bearer: []
+      summary: create new service inside of project
+      tags:
+      - endpoint
   /user/projects:
     get:
       parameters:
@@ -494,6 +500,11 @@ paths:
         name: Authorization
         required: true
         type: string
+      - description: Project Id
+        in: path
+        name: project_id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -518,6 +529,16 @@ paths:
       - description: access token 'Bearer {token}'
         in: header
         name: Authorization
+        required: true
+        type: string
+      - description: Project Id
+        in: path
+        name: project_id
+        required: true
+        type: string
+      - description: Endpoint Id
+        in: path
+        name: endpoint_id
         required: true
         type: string
       produces:

@@ -54,6 +54,7 @@ func (uh *userHandler) MyProjects(c *fiber.Ctx) error {
 //
 //	@Security	Bearer
 //	@Param		Authorization	header	string	true	"access token 'Bearer {token}'"
+//	@Param		project_id		path	string	true	"Project Id"
 //	@Produce	json
 //	@Success	200	{array}		dto.ProjectView
 //	@Failure	401	{object}	dto.HttpErr
@@ -69,6 +70,8 @@ func (uh *userHandler) MyEndpointsInProject(c *fiber.Ctx) error {
 //
 //	@Security	Bearer
 //	@Param		Authorization	header	string	true	"access token 'Bearer {token}'"
+//	@Param		project_id		path	string	true	"Project Id"
+//	@Param		endpoint_id		path	string	true	"Endpoint Id"
 //	@Produce	json
 //	@Success	200	{array}		dto.ProjectView
 //	@Failure	401	{object}	dto.HttpErr
