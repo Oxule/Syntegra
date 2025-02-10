@@ -1,2 +1,2 @@
 ALTER TABLE projects
-    DROP desctiption;
+    DROP COLUMN desctiption;

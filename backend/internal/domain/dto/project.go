@@ -4,7 +4,7 @@ import "github.com/google/uuid"
 
 type ProjectCreate struct {
 	Name        string `json:"name" validate:"required" example:"Project Syntegra"`
-	Description string `json:"description" validate:"required" example:"simple team project managing tool"`
+	Description string `json:"description" validate:"required"  example:"simple team project managing tool"`
 }
 
 type ProjectView struct {
@@ -14,8 +14,8 @@ type ProjectView struct {
 }
 
 type ProjectEdit struct {
-	Name        string `json:"name"  example:"Project Syntegra"`
-	Description string `json:"description"  example:"simple team project managing tool"`
+	Name        *string `json:"name"  example:"Project Syntegra"`
+	Description *string `json:"description"  example:"simple team project managing tool"`
 }
 
 type ProjectMember struct {

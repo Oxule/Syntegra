@@ -7,13 +7,114 @@ package storage
 
 import (
 	"context"
+
+	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const exampleProject = `-- name: ExampleProject :exec
-select (1) from projects
+const createProject = `-- name: CreateProject :one
+insert into projects(name, creator_id, desctiption) values ($1, $2, $3) RETURNING id, name, desctiption
 `
 
-func (q *Queries) ExampleProject(ctx context.Context) error {
-	_, err := q.db.Exec(ctx, exampleProject)
+type CreateProjectParams struct {
+	Name        string
+	CreatorID   uuid.UUID
+	Desctiption string
+}
+
+type CreateProjectRow struct {
+	ID          uuid.UUID
+	Name        string
+	Desctiption string
+}
+
+func (q *Queries) CreateProject(ctx context.Context, arg CreateProjectParams) (CreateProjectRow, error) {
+	row := q.db.QueryRow(ctx, createProject, arg.Name, arg.CreatorID, arg.Desctiption)
+	var i CreateProjectRow
+	err := row.Scan(&i.ID, &i.Name, &i.Desctiption)
+	return i, err
+}
+
+const editProject = `-- name: EditProject :one
+UPDATE projects SET name = $2, desctiption = $3 WHERE id = $1 RETURNING  id, name, desctiption
+`
+
+type EditProjectParams struct {
+	ID          uuid.UUID
+	Name        string
+	Desctiption string
+}
+
+type EditProjectRow struct {
+	ID          uuid.UUID
+	Name        string
+	Desctiption string
+}
+
+func (q *Queries) EditProject(ctx context.Context, arg EditProjectParams) (EditProjectRow, error) {
+	row := q.db.QueryRow(ctx, editProject, arg.ID, arg.Name, arg.Desctiption)
+	var i EditProjectRow
+	err := row.Scan(&i.ID, &i.Name, &i.Desctiption)
+	return i, err
+}
+
+const findByID = `-- name: FindByID :one
+select id, name, creator_id, desctiption from projects where id = $1
+`
+
+func (q *Queries) FindByID(ctx context.Context, id uuid.UUID) (Project, error) {
+	row := q.db.QueryRow(ctx, findByID, id)
+	var i Project
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.CreatorID,
+		&i.Desctiption,
+	)
+	return i, err
+}
+
+const inviteMember = `-- name: InviteMember :exec
+insert into project_members(project_id, member_id) values ($1, $2)
+`
+
+type InviteMemberParams struct {
+	ProjectID uuid.UUID
+	MemberID  uuid.UUID
+}
+
+func (q *Queries) InviteMember(ctx context.Context, arg InviteMemberParams) error {
+	_, err := q.db.Exec(ctx, inviteMember, arg.ProjectID, arg.MemberID)
 	return err
+}
+
+const listMembers = `-- name: ListMembers :many
+select member_id, name from project_members
+                       left join public.users u on u.id = project_members.member_id
+                       where project_id = $1
+`
+
+type ListMembersRow struct {
+	MemberID uuid.UUID
+	Name     pgtype.Text
+}
+
+func (q *Queries) ListMembers(ctx context.Context, projectID uuid.UUID) ([]ListMembersRow, error) {
+	rows, err := q.db.Query(ctx, listMembers, projectID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []ListMembersRow
+	for rows.Next() {
+		var i ListMembersRow
+		if err := rows.Scan(&i.MemberID, &i.Name); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
