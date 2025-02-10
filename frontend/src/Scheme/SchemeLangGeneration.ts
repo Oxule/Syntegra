@@ -142,6 +142,13 @@ function formatFields(
  * }
  */
 export function convertScheme(schemes: Scheme[], schemeName: string): string {
+
+    let isArray = false;
+    // @ts-ignore
+    if (schemeName.endsWith("[]")) {
+        isArray = true;
+        schemeName = schemeName.substring(0, schemeName.length - 2);
+    }
     // @ts-ignore
     const scheme = schemes.find(s => s.name === schemeName);
     if (!scheme) {
@@ -151,7 +158,7 @@ export function convertScheme(schemes: Scheme[], schemeName: string): string {
     let visited: { [key: string]: boolean } = {};
     visited[scheme.name] = true;
 
-    let result = scheme.name + "\n{\n";
+    let result = scheme.name + (isArray?"[]":"") + "\n{\n";
     result += formatFields(scheme.fields, schemes, "    ", visited);
     result += "}";
     return result;

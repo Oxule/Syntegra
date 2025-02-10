@@ -37,7 +37,7 @@ export function Project() {
                 },
                 {
                     name: "price",
-                    type: "number",
+                    type: "float",
                     description: "Product price, must be a positive value"
                 },
                 {
@@ -75,7 +75,7 @@ export function Project() {
                 },
                 {
                     name: "totalAmount",
-                    type: "number",
+                    type: "float",
                     description: "Total order cost"
                 },
                 {
@@ -134,10 +134,12 @@ export function Project() {
                     method: "GET",
                     route: "/products",
                     description: "Retrieve a list of all products",
-                    responses: [
-                        { code: 200, description: "Successful response", body: "array of scheme.Product" },
-                        { code: 400 }
-                    ]
+                    details: {
+                        responses: [
+                            { code: 200, description: "Successful response", body: "scheme.Product[]" },
+                            { code: 400 }
+                        ]
+                    }
                 },
                 {
                     id: "2",
@@ -149,13 +151,13 @@ export function Project() {
                             path: [
                                 { name: "id", type: "schemes.Id" }
                             ]
-                        }
-                    },
-                    responses: [
-                        { code: 200, description: "Successful response", body: "scheme.Product" },
-                        { code: 400 },
-                        { code: 404, description: "Product not found" }
-                    ]
+                        },
+                        responses: [
+                            { code: 200, description: "Successful response", body: "scheme.Product" },
+                            { code: 400 },
+                            { code: 404, description: "Product not found" }
+                        ]
+                    }
                 },
                 {
                     id: "3",
@@ -165,12 +167,12 @@ export function Project() {
                     details: {
                         request: {
                             body: "scheme.Product"
-                        }
-                    },
-                    responses: [
-                        { code: 201, description: "Product created successfully" },
-                        { code: 400 }
-                    ]
+                        },
+                        responses: [
+                            { code: 201, description: "Product created successfully" },
+                            { code: 400 }
+                        ]
+                    }
                 },
                 {
                     id: "4",
@@ -181,14 +183,14 @@ export function Project() {
                         request: {
                             path: [
                                 { name: "id", type: "schemes.Id" }
+                            ],
+                            responses: [
+                                { code: 200, description: "Product deleted successfully" },
+                                { code: 400 },
+                                { code: 404, description: "Product not found" }
                             ]
                         }
-                    },
-                    responses: [
-                        { code: 200, description: "Product deleted successfully" },
-                        { code: 400 },
-                        { code: 404, description: "Product not found" }
-                    ]
+                    }
                 }
             ]
         },
@@ -204,12 +206,12 @@ export function Project() {
                     details: {
                         request: {
                             body: "scheme.Order"
-                        }
-                    },
-                    responses: [
-                        { code: 201, description: "Order placed successfully" },
-                        { code: 400 }
-                    ]
+                        },
+                        responses: [
+                            { code: 201, description: "Order placed successfully" },
+                            { code: 400 }
+                        ]
+                    }
                 },
                 {
                     id: "6",
@@ -221,13 +223,13 @@ export function Project() {
                             path: [
                                 { name: "id", type: "schemes.Id" }
                             ]
-                        }
-                    },
-                    responses: [
-                        { code: 200, description: "Successful response", body: "scheme.Order" },
-                        { code: 400 },
-                        { code: 404, description: "Order not found" }
-                    ]
+                        },
+                        responses: [
+                            { code: 200, description: "Successful response", body: "scheme.Order" },
+                            { code: 400 },
+                            { code: 404, description: "Order not found" }
+                        ]
+                    }
                 }
             ]
         },
@@ -243,12 +245,12 @@ export function Project() {
                     details: {
                         request: {
                             body: "scheme.User"
-                        }
-                    },
-                    responses: [
-                        { code: 201, description: "User created successfully" },
-                        { code: 400 }
-                    ]
+                        },
+                        responses: [
+                            { code: 201, description: "User created successfully" },
+                            { code: 400 }
+                        ]
+                    }
                 },
                 {
                     id: "8",
@@ -260,13 +262,13 @@ export function Project() {
                             path: [
                                 { name: "id", type: "schemes.Id" }
                             ]
-                        }
-                    },
-                    responses: [
-                        { code: 200, description: "Successful response", body: "scheme.User" },
-                        { code: 400 },
-                        { code: 404, description: "User not found" }
-                    ]
+                        },
+                        responses: [
+                            { code: 200, description: "Successful response", body: "scheme.User" },
+                            { code: 400 },
+                            { code: 404, description: "User not found" }
+                        ]
+                    }
                 }
             ]
         }

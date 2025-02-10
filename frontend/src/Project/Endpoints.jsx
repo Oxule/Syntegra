@@ -14,7 +14,7 @@ export function Endpoints({endpoints, schemes}) {
                 if(body.startsWith(prefix))
                     code = convertScheme(schemes, body.substring(prefix.length, body.length));
                 return <div style={{marginTop: "16px"}}>
-                    <Title order={3} style={{marginBottom: "4px"}}>Body</Title>
+                    <Title order={4} style={{marginBottom: "4px"}}>Body</Title>
                     <CodeHighlight code={code} lang={"cs"}/>
                 </div>
             }
@@ -103,25 +103,17 @@ export function Endpoints({endpoints, schemes}) {
             }
 
             function EndpointResponses({responses}){
-                const content = [];
-
-                if(!responses){
+                if(!responses || responses.length === 0){
                     return <Text c="dimmed">No responses</Text>
                 }
 
-                if(responses.query && responses.query.length != 0){
-                    content.push(<>
-                        <Title order={3}>Query parameters</Title>
-                        {RenderSeparated(
-                            responses.query.map((x,i)=><div>Test</div>),
-                            <Divider my="sm"/>
-                        )}
-                    </>);
-                }
-
-                if(content.length == 0){
-                    return <Text c="dimmed">No responses</Text>
-                }
+                const content = responses.map(x=>(
+                    <>
+                        <Title order={2}>{x.code}</Title>
+                        {x.description ? <Text>{x.description}</Text> : <Text c={"dimmed"}>No description</Text>}
+                        {x.body && <DisplayBody body={x.body}/>}
+                    </>
+                ));
 
                 return RenderSeparated(content, <Divider my="md"/>)
             }
@@ -133,8 +125,8 @@ export function Endpoints({endpoints, schemes}) {
                 <Title order={1}>Request</Title>
                 <EndpointRequest request={info.details && info.details.request}/>
                 <Divider my="md" />
-                <Title order={1}>Responses</Title>
-                <EndpointResponses responses={info.details && info.details.response}/>
+                <Title order={1} style={{marginBottom: "16px"}}>Responses</Title>
+                <EndpointResponses responses={info.details && info.details.responses}/>
             </>
         }
 
