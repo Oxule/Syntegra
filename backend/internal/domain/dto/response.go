@@ -5,7 +5,7 @@ type HttpErr struct {
 	Message  string `json:"err" validate:"required" example:"some err description"`
 }
 
-func (err *HttpErr) Error() string{
+func (err *HttpErr) Error() string {
 	return err.Message
 }
 

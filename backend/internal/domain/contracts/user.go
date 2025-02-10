@@ -10,7 +10,7 @@ import (
 
 type UserService interface {
 	RegisterTrusted(ctx context.Context, users map[string]string) error
-	Login(ctx context.Context, uLogin *dto.UserLogin) (token string, id uuid.UUID, err *dto.HttpErr)
+	Login(ctx context.Context, uLogin *dto.UserLogin, trustedUsers map[string]string) (token string, id uuid.UUID, err *dto.HttpErr)
 }
 
 type UserRepository interface {

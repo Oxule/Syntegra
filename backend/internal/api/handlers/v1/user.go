@@ -1,12 +1,22 @@
 package v1
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"Syntegra/backend/internal/domain/contracts"
+	"Syntegra/backend/internal/domain/dto"
+
+	"github.com/gofiber/fiber/v2"
+)
 
 type userHandler struct {
+	userService  contracts.UserService
+	trustedUsers map[string]string
 }
 
-func NewUserHandler() *userHandler {
-	return &userHandler{}
+func NewUserHandler(us contracts.UserService, tu map[string]string) *userHandler {
+	return &userHandler{
+		userService:  us,
+		trustedUsers: tu,
+	}
 }
 
 func (uh *userHandler) Setup(r fiber.Router) {
@@ -29,7 +39,15 @@ func (uh *userHandler) Setup(r fiber.Router) {
 //	@Failure	400	{object}	dto.HttpErr
 //	@Router		/user/sign-in [post]
 func (uh *userHandler) Login(c *fiber.Ctx) error {
-	return nil
+	userLogin := new(dto.UserLogin)
+	if err := c.BodyParser(userLogin); err != nil {
+		return c.Status(400).JSON(dto.HttpErr{Message: err.Error()})
+	}
+	token, id, err := uh.userService.Login(c.Context(), userLogin, uh.trustedUsers)
+	if err != nil {
+		return c.Status(err.HttpCode).JSON(err)
+	}
+	return c.Status(200).JSON(dto.UserAuthResponse{Token: token, Id: id})
 }
 
 // ListProjects godoc
