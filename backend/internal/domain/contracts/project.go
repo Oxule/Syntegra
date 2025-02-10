@@ -9,11 +9,11 @@ import (
 )
 
 type ProjectService interface {
-	Create(ctx context.Context, p dto.ProjectCreate, parent uuid.UUID) (*dto.ProjectView, error)
+	Create(ctx context.Context, p dto.ProjectCreate, parent uuid.UUID) (*dto.ProjectView, *dto.HttpErr)
 	Edit(ctx context.Context, p dto.ProjectEdit, projectID uuid.UUID) *dto.ProjectView
 	ListMembers(ctx context.Context, projectId uuid.UUID) []dto.ProjectMember
-	Invite(ctx context.Context, projectId uuid.UUID, username string) error
-	UnInvite(ctx context.Context, projectId uuid.UUID, username string) error
+	Invite(ctx context.Context, projectId uuid.UUID, username string) *dto.HttpErr
+	UnInvite(ctx context.Context, projectId uuid.UUID, username string) *dto.HttpErr
 }
 
 type ProjectRepository interface {

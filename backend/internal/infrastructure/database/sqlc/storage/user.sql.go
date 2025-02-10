@@ -7,10 +7,12 @@ package storage
 
 import (
 	"context"
+
+	"github.com/google/uuid"
 )
 
-const createUser = `-- name: CreateUser :exec
-insert into users(name, password) values ($1, $2)
+const createUser = `-- name: CreateUser :one
+insert into users(name, password) values ($1, $2) returning id
 `
 
 type CreateUserParams struct {
@@ -18,7 +20,20 @@ type CreateUserParams struct {
 	Password string
 }
 
-func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) error {
-	_, err := q.db.Exec(ctx, createUser, arg.Name, arg.Password)
-	return err
+func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (uuid.UUID, error) {
+	row := q.db.QueryRow(ctx, createUser, arg.Name, arg.Password)
+	var id uuid.UUID
+	err := row.Scan(&id)
+	return id, err
+}
+
+const getUserByName = `-- name: GetUserByName :one
+select id, name, password from users where name = $1
+`
+
+func (q *Queries) GetUserByName(ctx context.Context, name string) (User, error) {
+	row := q.db.QueryRow(ctx, getUserByName, name)
+	var i User
+	err := row.Scan(&i.ID, &i.Name, &i.Password)
+	return i, err
 }

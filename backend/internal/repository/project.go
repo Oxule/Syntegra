@@ -44,7 +44,7 @@ func (r *projectRepo) ListMembers(ctx context.Context, projectid uuid.UUID) ([]s
 	return row, nil
 }
 
-func NewUserRepository(db *database.Pg) contracts.ProjectRepository {
+func NewProjectRepository(db *database.Pg) contracts.ProjectRepository {
 	return &projectRepo{
 		query: db.Queries(),
 	}

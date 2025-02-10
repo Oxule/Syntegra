@@ -1,4 +1,4 @@
-import {Card, Title, Text} from "@mantine/core";
+import {Title, Text} from "@mantine/core";
 import {useParams} from "react-router";
 import {Endpoints} from "./Endpoints.jsx";
 
@@ -78,7 +78,7 @@ export function Project() {
                     description: "Create new user",
                     details: {
                         request: {
-                            body: "scheme.createUser"
+                            body: "scheme.CreateUser"
                         }
                     }
                 },
@@ -93,13 +93,14 @@ export function Project() {
                                 {
                                     name: "force",
                                     type: "bool",
-                                    default: "false"
+                                    default: "false",
+                                    description: "Regular or Forced deletion of user"
                                 }
                             ],
                             path: [
                                 {
                                     name: "id",
-                                    type: "scheme.id"
+                                    type: "int"
                                 }
                             ]
                         }

@@ -20,14 +20,17 @@ func NewProjectService(as contracts.AuthService, pr contracts.ProjectRepository)
 	}
 }
 
-func (s *projectService) Create(ctx context.Context, p dto.ProjectCreate, parent uuid.UUID) (*dto.ProjectView, error) {
+func (s *projectService) Create(ctx context.Context, p dto.ProjectCreate, parent uuid.UUID) (*dto.ProjectView, *dto.HttpErr) {
 	info, err := s.projectRepo.Create(ctx, &storage.CreateProjectParams{
 		Name:        p.Name,
 		Desctiption: p.Description,
 		CreatorID:   parent,
 	})
 	if err != nil {
-		return nil, err
+		return nil, &dto.HttpErr{
+			HttpCode: 400,
+			Message:  err.Error(),
+		}
 	}
 	return &dto.ProjectView{
 		Name:        info.Name,
@@ -81,12 +84,12 @@ func (s *projectService) ListMembers(ctx context.Context, projectId uuid.UUID) [
 	return result
 }
 
-func (s *projectService) Invite(ctx context.Context, projectId uuid.UUID, username string) error {
+func (s *projectService) Invite(ctx context.Context, projectId uuid.UUID, username string) *dto.HttpErr {
 	// TODO: need user service for fetching userid by username
 	return nil
 }
 
-func (s *projectService) UnInvite(ctx context.Context, projectId uuid.UUID, username string) error {
+func (s *projectService) UnInvite(ctx context.Context, projectId uuid.UUID, username string) *dto.HttpErr {
 	// TODO: need user service for fetching userid by username
 	return nil
 }

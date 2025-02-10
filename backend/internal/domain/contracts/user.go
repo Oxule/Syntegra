@@ -9,11 +9,11 @@ import (
 )
 
 type UserService interface {
-	RegisterTrusted(users map[string]string) error
-	Login(ctx context.Context, uLogin *dto.UserLogin) (token string, id uuid.UUID, err error)
+	RegisterTrusted(ctx context.Context, users map[string]string) error
+	Login(ctx context.Context, uLogin *dto.UserLogin, trustedUsers map[string]string) (token string, id uuid.UUID, err *dto.HttpErr)
 }
 
 type UserRepository interface {
 	Create(ctx context.Context, u *storage.CreateUserParams) (uuid.UUID, error)
-	GetByUserName(ctx context.Context, email string) (*storage.User, error)
+	GetByName(ctx context.Context, name string) (*storage.User, error)
 }
