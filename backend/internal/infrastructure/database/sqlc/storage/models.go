@@ -6,18 +6,17 @@ package storage
 
 import (
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type Endpoint struct {
-	ID           uuid.UUID
-	ServiceID    uuid.UUID
-	AssignedUser uuid.UUID
-	Done         bool
-	Name         string
-	Path         string
-	Method       string
-	Description  string
-	Details      []byte
+	ID          uuid.UUID
+	Done        bool
+	Name        string
+	Path        string
+	Method      string
+	Description string
+	ShemaID     pgtype.UUID
 }
 
 type Project struct {
@@ -31,12 +30,13 @@ type ProjectMember struct {
 	ProjectID uuid.UUID
 }
 
-type Service struct {
-	ID             uuid.UUID
-	ProjectID      uuid.UUID
-	Name           string
-	EndpointsTotal int32
-	EndpointsDone  int32
+type Sheme struct {
+	ID         uuid.UUID
+	ProjectID  pgtype.UUID
+	ServiceTag string
+	NeedsAuth  bool
+	Name       string
+	Details    []byte
 }
 
 type User struct {
