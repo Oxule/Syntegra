@@ -1,36 +1,47 @@
-import {Accordion, Badge, Text} from "@mantine/core";
+import {Accordion, Badge, Text, Title} from "@mantine/core";
 
 export function Endpoints() {
 
     const endpoints = [
         {
-            tag: "2",
             id: "1",
-            method: "GET",
-            route: "/test",
+            name: "Index",
+            items: [
+                {
+                    id: "1",
+                    method: "GET",
+                    route: "/test",
+                },
+                {
+                    id: "2",
+                    method: "GET",
+                    route: "/",
+                },
+            ]
         },
         {
-            tag: "2",
             id: "2",
-            method: "GET",
-            route: "/",
-        },
-        {
-            tag: "1",
-            id: "3",
-            method: "POST",
-            route: "/user",
-        },
-        {
-            tag: "1",
-            id: "4",
-            method: "DELETE",
-            route: "/long/long/long/long/long/long/long/path",
+            name: "User",
+            items: [
+                {
+                    id: "3",
+                    method: "POST",
+                    route: "/user",
+                },
+                {
+                    id: "4",
+                    method: "DELETE",
+                    route: "/long/long/long/long/long/long/long/path",
+                }
+            ]
         }
     ]
 
     return <Accordion variant="separated">
-        {endpoints.map(x=><Endpoint info={x}/>)}
+        {endpoints.map(x=><>
+            <Title style={{marginTop: "24px",marginBottom: "12px"}}>{x.name}</Title>
+            {x.items.map(y=><Endpoint info={y}/>)}
+        </>)}
     </Accordion>;
 }
 
