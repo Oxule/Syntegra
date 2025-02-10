@@ -18,97 +18,260 @@ export function Project() {
     const schemes = [
         {
             id: "1",
-            name: "CreateUser",
-            fields:[
+            name: "Product",
+            fields: [
                 {
                     name: "id",
-                    type: "schemes.Id"
+                    type: "schemes.Id",
+                    description: "Unique identifier for the product"
                 },
                 {
                     name: "name",
                     type: "string",
-                    description: "length [3-64]"
+                    description: "Product name, length [3-128]"
+                },
+                {
+                    name: "description",
+                    type: "string",
+                    description: "Detailed product description, max length 512"
+                },
+                {
+                    name: "price",
+                    type: "number",
+                    description: "Product price, must be a positive value"
+                },
+                {
+                    name: "stock",
+                    type: "int",
+                    description: "Available quantity in stock"
+                }
+            ]
+        },
+        {
+            id: "2",
+            name: "Order",
+            fields: [
+                {
+                    name: "id",
+                    type: "schemes.Id",
+                    description: "Order unique identifier"
+                },
+                {
+                    name: "userId",
+                    type: "schemes.Id",
+                    description: "ID of the user placing the order"
+                },
+                {
+                    name: "products",
+                    type: "array",
+                    description: "List of products with their quantities",
+                    items: {
+                        type: "object",
+                        fields: [
+                            { name: "productId", type: "schemes.Id" },
+                            { name: "quantity", type: "int" }
+                        ]
+                    }
+                },
+                {
+                    name: "totalAmount",
+                    type: "number",
+                    description: "Total order cost"
+                },
+                {
+                    name: "status",
+                    type: "string",
+                    description: "Order status (e.g., 'Pending', 'Shipped', 'Delivered')"
+                }
+            ]
+        },
+        {
+            id: "3",
+            name: "User",
+            fields: [
+                {
+                    name: "id",
+                    type: "schemes.Id",
+                    description: "Unique user identifier"
+                },
+                {
+                    name: "name",
+                    type: "string",
+                    description: "User's full name, length [3-64]"
+                },
+                {
+                    name: "email",
+                    type: "string",
+                    description: "User's email address"
                 },
                 {
                     name: "password",
                     type: "string",
-                    description: "length [8-64], special regex"
+                    description: "Password, length [8-64] with special regex"
                 }
             ]
         },
         {
-            id: "2",
+            id: "4",
             name: "Id",
             fields: [
                 {
                     name: "this",
-                    description: "just UUID",
                     type: "string",
+                    description: "Unique identifier as UUID"
                 }
             ]
         }
-    ]
+    ];
 
     const endpoints = [
         {
             id: "1",
-            name: "Index",
+            name: "Product",
             items: [
                 {
                     id: "1",
                     method: "GET",
-                    route: "/test"
+                    route: "/products",
+                    description: "Retrieve a list of all products",
+                    responses: [
+                        { code: 200, description: "Successful response", body: "array of scheme.Product" },
+                        { code: 400 }
+                    ]
                 },
                 {
                     id: "2",
                     method: "GET",
-                    route: "/",
-                    description: "Index page"
+                    route: "/products/{id}",
+                    description: "Get detailed information about a specific product",
+                    details: {
+                        request: {
+                            path: [
+                                { name: "id", type: "schemes.Id" }
+                            ]
+                        }
+                    },
+                    responses: [
+                        { code: 200, description: "Successful response", body: "scheme.Product" },
+                        { code: 400 },
+                        { code: 404, description: "Product not found" }
+                    ]
                 },
-            ]
-        },
-        {
-            id: "2",
-            name: "User",
-            items: [
                 {
                     id: "3",
                     method: "POST",
-                    route: "/user",
-                    description: "Create new user",
+                    route: "/products",
+                    description: "Create a new product",
                     details: {
                         request: {
-                            body: "scheme.CreateUser"
+                            body: "scheme.Product"
                         }
-                    }
+                    },
+                    responses: [
+                        { code: 201, description: "Product created successfully" },
+                        { code: 400 }
+                    ]
                 },
                 {
                     id: "4",
                     method: "DELETE",
-                    route: "/user/{id}",
-                    description: lorem60,
+                    route: "/products/{id}",
+                    description: "Delete a specific product",
                     details: {
-                        request:{
-                            query: [
-                                {
-                                    name: "force",
-                                    type: "bool",
-                                    default: "false",
-                                    description: "Regular or Forced deletion of user"
-                                }
-                            ],
+                        request: {
                             path: [
-                                {
-                                    name: "id",
-                                    type: "int"
-                                }
+                                { name: "id", type: "schemes.Id" }
                             ]
                         }
-                    }
+                    },
+                    responses: [
+                        { code: 200, description: "Product deleted successfully" },
+                        { code: 400 },
+                        { code: 404, description: "Product not found" }
+                    ]
+                }
+            ]
+        },
+        {
+            id: "2",
+            name: "Order",
+            items: [
+                {
+                    id: "5",
+                    method: "POST",
+                    route: "/orders",
+                    description: "Place a new order",
+                    details: {
+                        request: {
+                            body: "scheme.Order"
+                        }
+                    },
+                    responses: [
+                        { code: 201, description: "Order placed successfully" },
+                        { code: 400 }
+                    ]
+                },
+                {
+                    id: "6",
+                    method: "GET",
+                    route: "/orders/{id}",
+                    description: "Retrieve order details by ID",
+                    details: {
+                        request: {
+                            path: [
+                                { name: "id", type: "schemes.Id" }
+                            ]
+                        }
+                    },
+                    responses: [
+                        { code: 200, description: "Successful response", body: "scheme.Order" },
+                        { code: 400 },
+                        { code: 404, description: "Order not found" }
+                    ]
+                }
+            ]
+        },
+        {
+            id: "3",
+            name: "User",
+            items: [
+                {
+                    id: "7",
+                    method: "POST",
+                    route: "/users",
+                    description: "Create a new user",
+                    details: {
+                        request: {
+                            body: "scheme.User"
+                        }
+                    },
+                    responses: [
+                        { code: 201, description: "User created successfully" },
+                        { code: 400 }
+                    ]
+                },
+                {
+                    id: "8",
+                    method: "GET",
+                    route: "/users/{id}",
+                    description: "Retrieve user information by ID",
+                    details: {
+                        request: {
+                            path: [
+                                { name: "id", type: "schemes.Id" }
+                            ]
+                        }
+                    },
+                    responses: [
+                        { code: 200, description: "Successful response", body: "scheme.User" },
+                        { code: 400 },
+                        { code: 404, description: "User not found" }
+                    ]
                 }
             ]
         }
-    ]
+    ];
+
 
     return (
         <>

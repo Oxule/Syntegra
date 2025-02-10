@@ -1,6 +1,6 @@
 import {Accordion, Badge, Divider, Flex, Table, Text, Title} from "@mantine/core";
 import {RenderSeparated} from "../Utils.js";
-import {convertScheme} from "../Scheme/SchemeLangGeneration.js";
+import {convertScheme, PRIMITIVES} from "../Scheme/SchemeLangGeneration.js";
 import {CodeHighlight} from "@mantine/code-highlight";
 
 export function Endpoints({endpoints, schemes}) {
@@ -17,6 +17,22 @@ export function Endpoints({endpoints, schemes}) {
                     <Title order={3} style={{marginBottom: "4px"}}>Body</Title>
                     <CodeHighlight code={code} lang={"cs"}/>
                 </div>
+            }
+
+            function breakParameterType(type){
+                let code = type;
+                const prefix = "schemes.";
+                if(type.startsWith(prefix)){
+                    const schemeName = type.substring(prefix.length, type.length);
+                    const scheme = schemes.find(s => s.name === schemeName);
+                    if(scheme && scheme.fields && scheme.fields.length === 1 && PRIMITIVES[scheme.fields[0].type]){
+                        code = schemeName + " (" + scheme.fields[0].type + ")";
+                    }
+                    else{
+                        code = schemeName;
+                    }
+                }
+                return code
             }
 
             function EndpointRequest({request}){
@@ -38,7 +54,7 @@ export function Endpoints({endpoints, schemes}) {
                                     fontSize: "12px"
                                 }}>REQUIRED</div>}</Text>
                             </Table.Td>
-                            <Table.Td><Text size={"xl"}>{x.type}</Text></Table.Td>
+                            <Table.Td><Text size={"xl"}>{breakParameterType(x.type)}</Text></Table.Td>
                             <Table.Td><Text size={"xl"}>Query</Text></Table.Td>
                             <Table.Td><Text size={"lg"}>{x.description}</Text></Table.Td>
                         </Table.Tr>
@@ -50,7 +66,7 @@ export function Endpoints({endpoints, schemes}) {
                             <Table.Td>
                                 <Text size={"xl"}>{x.name} <div style={{display: "inline", color: "var(--mantine-color-red-text)", fontSize: "12px"}}>REQUIRED</div></Text>
                             </Table.Td>
-                            <Table.Td><Text size={"xl"}>{x.type}</Text></Table.Td>
+                            <Table.Td><Text size={"xl"}>{breakParameterType(x.type)}</Text></Table.Td>
                             <Table.Td><Text size={"xl"}>Path</Text></Table.Td>
                             <Table.Td><Text size={"lg"}>{x.description}</Text></Table.Td>
                         </Table.Tr>

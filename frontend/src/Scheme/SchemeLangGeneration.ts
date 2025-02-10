@@ -1,6 +1,6 @@
 import {Field, Scheme} from "./SchemeType";
 
-const PRIMITIVES: { [key: string]: boolean } = {
+export const PRIMITIVES: { [key: string]: boolean } = {
     "int": true,
     "string": true,
     "bool": true,
@@ -67,7 +67,7 @@ function formatFields(
         const nullablePostfix = field.nullable ? "?" : ""
         const type = baseType + arrayPostfix + nullablePostfix;
 
-        console.log(field.type, baseType, isArray, isCustom, type);
+        //console.log(field.type, baseType, isArray, isCustom, type);
 
         if (isCustom) {
             // @ts-ignore
@@ -145,7 +145,7 @@ export function convertScheme(schemes: Scheme[], schemeName: string): string {
     // @ts-ignore
     const scheme = schemes.find(s => s.name === schemeName);
     if (!scheme) {
-        throw new Error("Scheme not found: " + schemeName);
+        return "schemes."+schemeName;
     }
 
     let visited: { [key: string]: boolean } = {};
