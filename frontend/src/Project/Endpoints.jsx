@@ -1,43 +1,9 @@
-import {Accordion, Badge, Text, Title} from "@mantine/core";
+import {Accordion, Badge, Divider, Flex, Text, Title} from "@mantine/core";
+import {RenderSeparated} from "../Utils.js";
 
-export function Endpoints() {
+export function Endpoints({endpoints}) {
 
-    const endpoints = [
-        {
-            id: "1",
-            name: "Index",
-            items: [
-                {
-                    id: "1",
-                    method: "GET",
-                    route: "/test",
-                },
-                {
-                    id: "2",
-                    method: "GET",
-                    route: "/",
-                },
-            ]
-        },
-        {
-            id: "2",
-            name: "User",
-            items: [
-                {
-                    id: "3",
-                    method: "POST",
-                    route: "/user",
-                },
-                {
-                    id: "4",
-                    method: "DELETE",
-                    route: "/long/long/long/long/long/long/long/path",
-                }
-            ]
-        }
-    ]
-
-    return <Accordion variant="separated">
+    return <Accordion variant="separated" multiple={true}>
         {endpoints.map(x=><>
             <Title style={{marginTop: "24px",marginBottom: "12px"}}>{x.name}</Title>
             {x.items.map(y=><Endpoint info={y}/>)}
@@ -65,11 +31,57 @@ function Endpoint({info}) {
             break;
     }
 
+
+
     return <Accordion.Item key={info.id} value={info.id}>
         <Accordion.Control>
             <Badge size={"xl"} radius={"md"} style={{display: "inline"}} color={color}>{info.method}</Badge><Text style={{display: "inline", marginLeft: "12px"}} size={"xl"}>{info.route}</Text>
         </Accordion.Control>
 
-        <Accordion.Panel>Some details</Accordion.Panel>
+        <Accordion.Panel>
+            <EndpointInfo info={info}/>
+        </Accordion.Panel>
     </Accordion.Item>;
+}
+
+function EndpointInfo({info}){
+
+    function EndpointRequest({request}){
+        const content = [];
+
+        if(!request){
+            return <Text c="dimmed">Empty request</Text>
+        }
+
+        if(request.query && request.query.length != 0){
+            content.push(<>
+                <Title order={3}>Query parameters</Title>
+                {RenderSeparated(
+                    request.query.map((x,i)=>(
+                        <div key={i}>
+                            <Flex direction={"row"} wrap={"wrap"} justify={"start"} gap={"min(max(64px, 25%), 160px)"}>
+                                <Text size={"lg"}>{x.name}</Text>
+                                <Text size={"lg"}>{x.name}</Text>
+                            </Flex>
+                        </div>
+                    )),
+                    <Divider my="sm"/>
+                )}
+            </>);
+        }
+
+        if(content.length == 0){
+            return <Text c="dimmed">Empty request</Text>
+        }
+
+        return RenderSeparated(content, <Divider my="md"/>)
+    }
+
+    return <>
+        {info.description && <Text size={"lg"} style={{marginBottom: "16px"}}>{info.description}</Text>}
+        <Divider my="md" />
+        <Title order={1}>Request</Title>
+        <EndpointRequest request={info.details && info.details.request}/>
+        <Divider my="md" />
+    </>
 }
