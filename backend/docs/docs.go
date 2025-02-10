@@ -815,10 +815,15 @@ const docTemplate = `{
         "dto.ProjectView": {
             "type": "object",
             "required": [
+                "description",
                 "project_id",
                 "project_name"
             ],
             "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "simple team project managing tool"
+                },
                 "project_id": {
                     "type": "string",
                     "format": "uuid",

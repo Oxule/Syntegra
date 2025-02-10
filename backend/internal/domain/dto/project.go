@@ -8,8 +8,9 @@ type ProjectCreate struct {
 }
 
 type ProjectView struct {
-	Name string    `json:"project_name" validate:"required" example:"Project Syntegra"`
-	Id   uuid.UUID `json:"project_id" validate:"required" example:"550e8400-e29b-41d4-a716-446655440000" format:"uuid"`
+	Name        string    `json:"project_name" validate:"required" example:"Project Syntegra"`
+	Description string    `json:"description" validate:"required" example:"simple team project managing tool"`
+	Id          uuid.UUID `json:"project_id" validate:"required" example:"550e8400-e29b-41d4-a716-446655440000" format:"uuid"`
 }
 
 type ProjectEdit struct {

@@ -73,6 +73,9 @@ definitions:
     type: object
   dto.ProjectView:
     properties:
+      description:
+        example: simple team project managing tool
+        type: string
       project_id:
         example: 550e8400-e29b-41d4-a716-446655440000
         format: uuid
@@ -81,6 +84,7 @@ definitions:
         example: Project Syntegra
         type: string
     required:
+    - description
     - project_id
     - project_name
     type: object
