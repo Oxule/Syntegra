@@ -1,4 +1,4 @@
-import {Card, Title, Text} from "@mantine/core";
+import {Title, Text} from "@mantine/core";
 import {useParams} from "react-router";
 import {Endpoints} from "./Endpoints.jsx";
 

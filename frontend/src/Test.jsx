@@ -1,36 +1,20 @@
 import {useAuth} from "./Auth.js";
 import {CodeHighlight} from "@mantine/code-highlight";
-import {GenerateSchemeLang} from "./Scheme/SchemeLangGeneration.js";
+import {convertScheme} from "./Scheme/SchemeLangGeneration.ts";
 
 export function Test() {
     const [isAuth, authHeader, authCredentials] = useAuth();
 
 
-
-    const exampleCode = `SomeType //description, restrictions, etc.
-{
-    int a = 5; //description, restrictions, etc.
-    bool b = false; //description, restrictions, etc.
-    SomeOtherType c //description, restrictions, etc.
-    {
-        float a = 0.1; //description, restrictions, etc.
-        int g = 10; //description, restrictions, etc.
-    }
-    SomeArrayType[]? g //description, restrictions, etc.
-    {
-        string g;
-    }
-}`;
-
-
     const schemes = [
         {
             id: "1",
-            name: "CreateUser",
-            fields:[
+            name: "User",
+            fields: [
                 {
                     name: "id",
-                    type: "schemes.Id"
+                    type: "schemes.Id",
+                    description: "User unique identifier"
                 },
                 {
                     name: "name",
@@ -38,9 +22,27 @@ export function Test() {
                     description: "length [3-64]"
                 },
                 {
-                    name: "password",
-                    type: "string",
-                    description: "length [8-64], special regex"
+                    name: "roles",
+                    type: "string[]",
+                    description: "User roles in the system",
+                    default: `["user"]`
+                },
+                {
+                    name: "emails",
+                    type: "string[]",
+                    description: "List of alternative emails",
+                    nullable: true
+                },
+                {
+                    name: "profile",
+                    type: "schemes.Profile",
+                    description: "User profile data"
+                },
+                {
+                    name: "notificationsEnabled",
+                    type: "bool",
+                    description: "Notification toggle",
+                    default: "true"
                 }
             ]
         },
@@ -50,14 +52,54 @@ export function Test() {
             fields: [
                 {
                     name: "this",
-                    description: "just UUID",
                     type: "string",
+                    description: "just UUID"
+                }
+            ]
+        },
+        {
+            id: "3",
+            name: "Profile",
+            fields: [
+                {
+                    name: "age",
+                    type: "int",
+                    description: "Age must be between 18 and 120",
+                    default: "18"
+                },
+                {
+                    name: "addresses",
+                    type: "schemes.Address[]",
+                    description: "User's list of addresses",
+                    default: "[]"
+                }
+            ]
+        },
+        {
+            id: "4",
+            name: "Address",
+            fields: [
+                {
+                    name: "street",
+                    type: "string",
+                    description: "Street name and number"
+                },
+                {
+                    name: "city",
+                    type: "string",
+                    description: "City of residence",
+                    default: `"Unknown"`
+                },
+                {
+                    name: "postalCode",
+                    type: "string",
+                    description: "Postal code format may vary by country"
                 }
             ]
         }
-    ]
+    ];
 
-    const generatedSchemeCode = GenerateSchemeLang(schemes);
+    const generatedSchemeCode = convertScheme(schemes, "User");
 
 
     return <>
@@ -71,6 +113,6 @@ export function Test() {
 
         <div style={{height:"100px"}}/>
 
-        <CodeHighlight code={exampleCode} lang={"cs"}/>
+        <CodeHighlight code={generatedSchemeCode} lang={"cs"}/>
     </>
 }
