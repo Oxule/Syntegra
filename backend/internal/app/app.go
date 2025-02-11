@@ -71,6 +71,9 @@ func (app *App) handlersSetup(ctx context.Context) {
 	// services
 	authService := service.NewAuthService(app.Config.SecretKey)
 	log.Print(utils.HashPassword("qwerty123"))
+	// add auth middleware
+	app.Fiber.Use(middleware.Auth(authService))
+
 	userService := service.NewUserService(authService, userRepo)
 
 	// handlers
@@ -78,8 +81,10 @@ func (app *App) handlersSetup(ctx context.Context) {
 	projectHandler := v1.NewProjectHandler()
 
 	// setup
-	userService.RegisterTrusted(ctx, app.Config.TrustedUsers())
+	err := userService.RegisterTrusted(ctx, app.Config.TrustedUsers())
+	if err != nil {
+		return
+	}
 	userHandler.Setup(apiV1)
 	projectHandler.Setup(apiV1)
-
 }

@@ -44,6 +44,28 @@ func (r *projectRepo) ListMembers(ctx context.Context, projectid uuid.UUID) ([]s
 	return row, nil
 }
 
+func (r *projectRepo) AddMember(ctx context.Context, projectid uuid.UUID, userID uuid.UUID) error {
+	err := r.query.InviteMember(ctx, storage.InviteMemberParams{
+		ProjectID: projectid,
+		MemberID:  userID,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *projectRepo) DeleteMember(ctx context.Context, projectid uuid.UUID, userID uuid.UUID) error {
+	err := r.query.UnInviteMember(ctx, storage.UnInviteMemberParams{
+		ProjectID: projectid,
+		MemberID:  userID,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func NewProjectRepository(db *database.Pg) contracts.ProjectRepository {
 	return &projectRepo{
 		query: db.Queries(),

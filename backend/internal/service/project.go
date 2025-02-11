@@ -11,12 +11,14 @@ import (
 type projectService struct {
 	authService contracts.AuthService
 	projectRepo contracts.ProjectRepository
+	userRepo    contracts.UserRepository
 }
 
-func NewProjectService(as contracts.AuthService, pr contracts.ProjectRepository) contracts.ProjectService {
+func NewProjectService(as contracts.AuthService, pr contracts.ProjectRepository, ur contracts.UserRepository) contracts.ProjectService {
 	return &projectService{
 		authService: as,
 		projectRepo: pr,
+		userRepo:    ur,
 	}
 }
 
@@ -85,7 +87,20 @@ func (s *projectService) ListMembers(ctx context.Context, projectId uuid.UUID) [
 }
 
 func (s *projectService) Invite(ctx context.Context, projectId uuid.UUID, username string) *dto.HttpErr {
-	// TODO: need user service for fetching userid by username
+	usr, err := s.userRepo.GetByName(ctx, username)
+	if err != nil {
+		return &dto.HttpErr{
+			HttpCode: 400,
+			Message:  "not found",
+		}
+	}
+	err = s.projectRepo.AddMember(ctx, projectId, usr.ID)
+	if err != nil {
+		return &dto.HttpErr{
+			HttpCode: 400,
+			Message:  err.Error(),
+		}
+	}
 	return nil
 }
 

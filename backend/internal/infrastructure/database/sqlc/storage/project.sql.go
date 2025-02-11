@@ -118,3 +118,17 @@ func (q *Queries) ListMembers(ctx context.Context, projectID uuid.UUID) ([]ListM
 	}
 	return items, nil
 }
+
+const unInviteMember = `-- name: UnInviteMember :exec
+delete from project_members where project_id = $1 and member_id = $2
+`
+
+type UnInviteMemberParams struct {
+	ProjectID uuid.UUID
+	MemberID  uuid.UUID
+}
+
+func (q *Queries) UnInviteMember(ctx context.Context, arg UnInviteMemberParams) error {
+	_, err := q.db.Exec(ctx, unInviteMember, arg.ProjectID, arg.MemberID)
+	return err
+}

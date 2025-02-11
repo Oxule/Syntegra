@@ -14,3 +14,6 @@ select member_id, name from project_members
 
 -- name: InviteMember :exec
 insert into project_members(project_id, member_id) values ($1, $2);
+
+-- name: UnInviteMember :exec
+delete from project_members where project_id = $1 and member_id = $2;

@@ -21,4 +21,5 @@ type ProjectRepository interface {
 	GetByID(ctx context.Context, id uuid.UUID) (storage.Project, error)
 	Edit(ctx context.Context, u *storage.EditProjectParams) (storage.EditProjectRow, error)
 	ListMembers(ctx context.Context, projectid uuid.UUID) ([]storage.ListMembersRow, error)
+	AddMember(ctx context.Context, projectid uuid.UUID, userID uuid.UUID) error
 }
