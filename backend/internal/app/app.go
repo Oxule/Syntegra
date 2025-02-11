@@ -80,6 +80,7 @@ func (app *App) handlersSetup(ctx context.Context) {
 	// setup
 	err := userService.RegisterTrusted(ctx, app.Config.TrustedUsers())
 	if err != nil {
+		log.Fatalf("USER REGISTRATION ERROR")
 		return
 	}
 	userHandler.Setup(apiV1)

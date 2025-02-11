@@ -26,6 +26,9 @@ func NewUserService(as contracts.AuthService, ur contracts.UserRepository) *user
 
 func (s *userService) RegisterTrusted(ctx context.Context, users map[string]string) error {
 	for k, v := range users {
+		if _, err := s.GetByName(ctx, k); err == nil{
+			continue
+		}
 		_, err := s.userRepo.Create(ctx, &storage.CreateUserParams{Name: k, Password: v})
 		if err != nil {
 			return err
