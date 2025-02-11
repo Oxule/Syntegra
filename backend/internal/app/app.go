@@ -11,7 +11,6 @@ import (
 	"Syntegra/backend/internal/infrastructure/database"
 	"Syntegra/backend/internal/repository"
 	"Syntegra/backend/internal/service"
-	"Syntegra/backend/internal/utils"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
