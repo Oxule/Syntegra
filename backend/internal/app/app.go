@@ -70,7 +70,6 @@ func (app *App) handlersSetup(ctx context.Context) {
 	// services
 	authService := service.NewAuthService(app.Config.SecretKey)
 
-
 	userService := service.NewUserService(authService, userRepo)
 
 	// handlers
@@ -80,7 +79,7 @@ func (app *App) handlersSetup(ctx context.Context) {
 	// setup
 	err := userService.RegisterTrusted(ctx, app.Config.TrustedUsers())
 	if err != nil {
-		log.Fatalf("USER REGISTRATION ERROR")
+		log.Fatalf("USER REGISTRATION ERROR: %s", err.Error())
 		return
 	}
 	userHandler.Setup(apiV1)
