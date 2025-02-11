@@ -44,7 +44,7 @@ export function TypeSelector({schemes, setSchemes, onChange, value, ...rest}){
                            onApply={x=>{
                                handleApplyNewScheme(x.name)
                                setSchemes(prev=>[...prev, x])
-                               console.log(x)
+                               schemeModal.current.reset()
                            }}
                            schemes={schemes}/>
         <Select

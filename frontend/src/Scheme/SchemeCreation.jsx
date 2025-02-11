@@ -63,7 +63,14 @@ function CreateSchemeModalC({opened, close, onApply, isEditing, schemes}, ref){
             fields: [],
         },
         validate: {
-            name: (value) => (value && value !== "")?null:"Name is required",
+            name: (value) => {
+                if(!value || value === "")
+                    return "Name is required";
+                if(schemes.find(x=>x.name === value))
+                    return "Scheme with the same name exists";
+                return null;
+            },
+            //TODO: if it's possible, then check field names collisions
             fields: {
                 name: (value) => (value && value !== "")?null:"Name is required",
                 type: (value) => {
@@ -79,7 +86,8 @@ function CreateSchemeModalC({opened, close, onApply, isEditing, schemes}, ref){
 
     useImperativeHandle(ref, ()=>({
         getValues: form.getValues,
-        setValues: form.setValues
+        setValues: form.setValues,
+        reset: form.reset
     }))
 
     return <Modal.Root opened={opened} onClose={close} centered>
