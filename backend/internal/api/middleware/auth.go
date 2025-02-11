@@ -11,6 +11,7 @@ import (
 func Auth(authService contracts.AuthService) fiber.Handler {
 
 	return func(c *fiber.Ctx) error {
+
 		bearer := c.Get("Authorization")
 		splited := strings.Split(bearer, " ")
 		if len(splited) != 2 {
@@ -25,10 +26,12 @@ func Auth(authService contracts.AuthService) fiber.Handler {
 		if !ok {
 			return c.Status(401).JSON(dto.HttpErr{Message: "token is expired"})
 		}
-		_, err = authService.GetSubFromToken(tokenString)
+		sub, err := authService.GetSubFromToken(tokenString)
 		if err != nil {
 			return c.Status(401).JSON(dto.HttpErr{Message: err.Error()})
 		}
+		// pass username via context
+		c.Set("user", sub)
 		return c.Next()
 	}
 
