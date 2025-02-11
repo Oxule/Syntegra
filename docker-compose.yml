@@ -1,10 +1,9 @@
 services:
-  
   backend:
     container_name: backend
-    build: .
+    build: ./backend
     env_file:
-      - .env
+      - ./backend/.env
     ports:
       - ${SERVER_PORT}:3000
 
@@ -17,7 +16,7 @@ services:
     container_name: postgres
     image: postgres:16.6-alpine3.21
     env_file:
-      - .env
+      - ./backend/.env
     ports:
       - ${POSTGRES_PORT}:5432
 
@@ -29,5 +28,3 @@ services:
       start_period: 5s
 
     restart: always
-
-
