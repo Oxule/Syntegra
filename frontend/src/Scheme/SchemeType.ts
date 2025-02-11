@@ -9,5 +9,6 @@ export interface Field {
 export interface Scheme {
     id: string;
     name: string;
+    description: string;
     fields: Field[];
 }

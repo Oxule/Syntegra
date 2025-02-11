@@ -50,6 +50,7 @@ export function Project() {
         {
             id: "2",
             name: "Order",
+            description: "This type is just a regular order in this shop",
             fields: [
                 {
                     name: "id",

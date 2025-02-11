@@ -84,7 +84,7 @@ function formatFields(
                     commentParts.push(innerField.description);
                 }
                 if (field.description) {
-                    commentParts.push(field.description);
+                    commentParts.push("~ "+field.description);
                 }
                 const comment = commentParts.join(" ");
                 const line = indent +
@@ -158,7 +158,7 @@ export function convertScheme(schemes: Scheme[], schemeName: string): string {
     let visited: { [key: string]: boolean } = {};
     visited[scheme.name] = true;
 
-    let result = scheme.name + (isArray?"[]":"") + "\n{\n";
+    let result = scheme.name + (isArray?"[]":"") + (scheme.description?" // "+scheme.description:"") + "\n{\n";
     result += formatFields(scheme.fields, schemes, "    ", visited);
     result += "}";
     return result;

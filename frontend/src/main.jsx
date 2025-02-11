@@ -15,6 +15,7 @@ import {AuthConfig, AuthProvider} from "./Auth.tsx";
 import {Test} from "./Test.jsx";
 import {AutoAlt} from "./AutoAlt.jsx";
 import {Project} from "./Project/Project.jsx";
+import {SchemesTest} from "./SchemesTest.jsx";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -29,6 +30,7 @@ createRoot(document.getElementById('root')).render(
                           <Route path={"/"} element={<Projects/>}/>
                           <Route path={"/:id"} element={<Project/>}/>
                           <Route path={"/test"} element={<Test/>}/>
+                          <Route path={"/test/schemes"} element={<SchemesTest/>}/>
                       </Routes>
                   </div>
               </BrowserRouter>

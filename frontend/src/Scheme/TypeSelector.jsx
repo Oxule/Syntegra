@@ -5,7 +5,7 @@ import {useDisclosure} from "@mantine/hooks";
 
 export const TYPES = ["int","string","float","bool"];
 
-export function TypeSelector({schemes}){
+export function TypeSelector({schemes, setSchemes, onChange, value, ...rest}){
     const [types, setTypes] = useState([
         { value: "_createNew", label: "Create new scheme" },
         ...TYPES,
@@ -28,34 +28,46 @@ export function TypeSelector({schemes}){
     const schemeModal = useRef();
     const [opened, { close, open }] = useDisclosure(false);
 
-    const [value, setValue] = useState("string");
+    const [valueV, setValueV] = useState(value);
 
     const handleApplyNewScheme = (newScheme) => {
         const newType = { value: `schemes.${newScheme}`, label: newScheme };
         setTypes((prev) => [...prev, newType]);
-        setValue((prev)=> newType.value);
+        setValueV((prev)=> newType.value);
+        if(onChange)
+            onChange(newType.value);
         close();
     };
 
     return <>
-        <CreateSchemeModal ref={schemeModal} opened={opened} close={close} onApply={handleApplyNewScheme}/>
+        <CreateSchemeModal ref={schemeModal} opened={opened} close={close}
+                           onApply={x=>{
+                               handleApplyNewScheme(x.name)
+                               setSchemes(prev=>[...prev, x])
+                               console.log(x)
+                           }}
+                           schemes={schemes}/>
         <Select
         label="Field type"
+        size={"md"}
         placeholder="string"
         data={generateSybTypes()}
         allowDeselect={false}
         searchable
         nothingFoundMessage="Nothing found..."
         ref={selectRef}
-        value={value}
+        value={valueV}
         onChange={(x)=>{
             if(x==="_createNew"){
                 open()
             }
             else {
-                setValue(x)
+                setValueV(x)
+                if(onChange)
+                    onChange(x)
             }
         }}
+        {...rest}
         />
     </>
 }
