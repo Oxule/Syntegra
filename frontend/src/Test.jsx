@@ -1,6 +1,11 @@
 import {useAuth} from "./Auth.js";
 import {CodeHighlight} from "@mantine/code-highlight";
 import {convertScheme} from "./Scheme/SchemeLangGeneration.ts";
+import {Button} from "@mantine/core";
+import {useDisclosure} from "@mantine/hooks";
+import {CreateSchemeModal} from "./Scheme/SchemeCreation.jsx";
+import {useRef, useState} from "react";
+import {TypeSelector} from "./Scheme/TypeSelector.jsx";
 
 export function Test() {
     const [isAuth, authHeader, authCredentials] = useAuth();
@@ -105,6 +110,11 @@ export function Test() {
 
     const generatedSchemeCode = convertScheme(schemes, "User");
 
+    const [opened, { close, open }] = useDisclosure(false);
+
+    const [selectedName, setSelectedName] = useState("Change name...");
+
+    const createSchemeModalRef = useRef();
 
     return <>
         <h1>Auth: {isAuth ? "Yes" : "No"}</h1>
@@ -115,8 +125,25 @@ export function Test() {
             </>
         }
 
-        <div style={{height:"100px"}}/>
+        <div style={{height: "100px"}}/>
 
         <CodeHighlight code={generatedSchemeCode} lang={"cs"}/>
+
+        <div style={{height: "100px"}}/>
+
+        <CreateSchemeModal ref={createSchemeModalRef} close={close} opened={opened}
+                           onApply={(x) => setSelectedName(x)}/>
+
+        <Button onClick={() => {
+            createSchemeModalRef.current.setValue(selectedName);
+            open();
+        }}>{selectedName}</Button>
+
+        <div style={{height: "100px"}}/>
+
+        <TypeSelector schemes={schemes}/>
+
+        <div style={{height: "1000px"}}/>
+
     </>
 }
