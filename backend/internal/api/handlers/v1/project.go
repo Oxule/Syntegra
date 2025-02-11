@@ -1,8 +1,14 @@
 package v1
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"Syntegra/backend/internal/domain/contracts"
+	"github.com/gofiber/fiber/v2"
+)
 
 type projectHandler struct {
+	projectService contracts.ProjectService
+	authService    contracts.AuthService
+	userService    contracts.UserService
 }
 
 func NewProjectHandler() *projectHandler {

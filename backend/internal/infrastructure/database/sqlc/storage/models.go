@@ -20,9 +20,10 @@ type Endpoint struct {
 }
 
 type Project struct {
-	ID        uuid.UUID
-	Name      string
-	CreatorID uuid.UUID
+	ID          uuid.UUID
+	Name        string
+	CreatorID   uuid.UUID
+	Desctiption string
 }
 
 type ProjectMember struct {

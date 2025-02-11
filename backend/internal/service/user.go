@@ -48,7 +48,5 @@ func (s *userService) Login(ctx context.Context, uLogin *dto.UserLogin, trustedU
 		return token, id, &dto.HttpErr{HttpCode: 400, Message: authErr.Error()}
 	}
 	user, _ := s.userRepo.GetByName(ctx, uLogin.Name)
-
 	return token, user.ID, nil
-
 }

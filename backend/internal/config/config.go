@@ -14,8 +14,8 @@ type Config struct {
 }
 
 var trustedUsers = map[string]string{
-	"msa":   "C9VZvUFc17t0ejxeOD+2clqS+H8AN+nhTYknawnQHGs",
-	"Oxule": "lEcxeuN37OsyfvWPSuNeZ91SIwwfbK4tIDkJX8M1anQ",
+	"msa":       "C9VZvUFc17t0ejxeOD+2clqS+H8AN+nhTYknawnQHGs",
+	"Oxule":     "lEcxeuN37OsyfvWPSuNeZ91SIwwfbK4tIDkJX8M1anQ",
 	"test_user": "WG7aNa/UoqeZW5XSn1McCfKHZzpKSFjubDatTsWxhO4",
 }
 

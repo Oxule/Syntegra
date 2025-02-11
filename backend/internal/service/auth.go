@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"time"
 
 	"Syntegra/backend/internal/domain/contracts"
@@ -38,6 +39,9 @@ func (s *authService) ParseToken(tokenString string) (jwt.Claims, error) {
 	}
 
 	token, err := jwt.Parse(tokenString, keyFunc)
+	if token == nil || err != nil {
+		return nil, errors.New("invalid token")
+	}
 	return token.Claims, err
 }
 

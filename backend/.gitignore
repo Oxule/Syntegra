@@ -1,2 +1,4 @@
 dev.yml
 output.json
+.idea
+.env
