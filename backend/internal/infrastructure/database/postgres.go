@@ -22,7 +22,6 @@ type Pg struct {
 func NewPg(ctx context.Context, config *config.Config) *Pg {
 	conn, err := pgx.Connect(ctx, config.PostgresUrl)
 	if err != nil {
-		log.Fatalf("CONN: %s", config.PostgresUrl)
 		log.Fatalf("DB error: %s", err.Error())
 		return nil
 	}
