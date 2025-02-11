@@ -37,11 +37,17 @@ func (s *userService) RegisterTrusted(ctx context.Context, users map[string]stri
 func (s *userService) Login(ctx context.Context, uLogin *dto.UserLogin, trustedUsers map[string]string) (token string, id uuid.UUID, err *dto.HttpErr) {
 	_, ok := trustedUsers[uLogin.Name]
 	if !ok {
-		return token, id, &dto.HttpErr{HttpCode: 400, Message: "no user registered on this username"}
+		return token, id, &dto.HttpErr{
+			HttpCode: 400,
+			Message: "no user registered on this username",
+		}
 	}
 	ok = utils.CompareHashAndPassword(trustedUsers[uLogin.Name], uLogin.PasswordUnHashed)
 	if !ok {
-		return token, id, &dto.HttpErr{HttpCode: 400, Message: "password mismatch"}
+		return token, id, &dto.HttpErr{
+			HttpCode: 400,
+			Message: "password mismatch",
+		}
 	}
 	token, authErr := s.authService.GenerateToken(uLogin.Name)
 	if authErr != nil {
@@ -50,3 +56,20 @@ func (s *userService) Login(ctx context.Context, uLogin *dto.UserLogin, trustedU
 	user, _ := s.userRepo.GetByName(ctx, uLogin.Name)
 	return token, user.ID, nil
 }
+
+
+func (s *userService) GetByName(ctx context.Context, name string) (*dto.UserView, *dto.HttpErr){
+	user, err := s.userRepo.GetByName(ctx, name)
+	if err != nil{
+		return nil, &dto.HttpErr{
+			HttpCode: 400,
+			Message: "user not found",
+		}
+	}
+	return &dto.UserView{
+		Id: user.ID,
+		Name: user.Name,
+		PasswordHashed: user.Password,
+	}, nil	
+}
+
