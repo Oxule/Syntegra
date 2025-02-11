@@ -70,9 +70,7 @@ func (app *App) handlersSetup(ctx context.Context) {
 	userRepo := repository.NewUserRepository(app.DB)
 	// services
 	authService := service.NewAuthService(app.Config.SecretKey)
-	log.Print(utils.HashPassword("qwerty123"))
-	// add auth middleware
-	app.Fiber.Use(middleware.Auth(authService))
+
 
 	userService := service.NewUserService(authService, userRepo)
 
